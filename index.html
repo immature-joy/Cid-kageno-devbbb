@@ -3,16 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Cid Kageno | Student, AI enthusiast, and web developer. Building small tools, experimenting with AI, and learning by doing.">
 <title>Cid Kageno | Developer Profile</title>
 
 <!-- Tailwind CDN with system dark mode -->
 <script>
-tailwind.config = { darkMode: 'media', theme: { extend: {} } };
+tailwind.config = { darkMode: 'class', theme: { extend: {} } };
 </script>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <!-- Feather Icons -->
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+<!-- AOS (Animate On Scroll) -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
 <style>
 html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -49,16 +54,16 @@ html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
 /* Hero Blob */
 .hero-blob {
   position: absolute;
-  top: -4rem; left: -4rem;
-  width: 22rem; height: 22rem;
+  top: -3rem; left: -3rem;
+  width: 18rem; height: 18rem;
   background: radial-gradient(circle at center, rgba(200,200,255,0.3), transparent 70%);
-  filter: blur(120px);
+  filter: blur(100px);
   z-index: -1;
   animation: blobMove 20s infinite alternate;
 }
 @keyframes blobMove {
   0% { transform: translate(0,0) scale(1); }
-  50% { transform: translate(40px,20px) scale(1.1); }
+  50% { transform: translate(30px,15px) scale(1.05); }
   100% { transform: translate(0,-10px) scale(0.95); }
 }
 
@@ -83,6 +88,16 @@ main.container {
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 8px 20px rgba(0,0,0,0.07);
 }
+
+/* Dark theme adjustments */
+html.dark .liquid-card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+html.dark .liquid-btn {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.15);
+}
 </style>
 </head>
 <body class="antialiased flex flex-col">
@@ -99,7 +114,7 @@ main.container {
     <!-- Left Card -->
     <div class="liquid-card">
       <div class="flex items-center gap-4 mb-4">
-        <div class="logo-dot shrink-0 text-xl font-bold"> </div>
+        <div class="logo-dot shrink-0 text-xl font-bold"></div>
         <div>
           <h1 class="text-3xl font-bold">Cid <span class="text-gray-500 dark:text-gray-300">Kageno</span></h1>
           <p class="text-sm text-gray-400 mt-1">HSC24 • Developer • AI enthusiast</p>
@@ -119,7 +134,7 @@ main.container {
     <div class="relative">
       <div class="hero-blob" aria-hidden="true"></div>
       <div class="liquid-card flex flex-col items-center text-center">
-        <img src="https://i.postimg.cc/g27cvRc7/Profile.jpg" alt="Cid Kageno" class="profile-pic mb-4">
+        <img src="https://i.postimg.cc/g27cvRc7/Profile.jpg" alt="Cid Kageno" class="profile-pic mb-4" loading="lazy">
         <h3 class="text-lg font-semibold mb-2">Hello — I’m Cid</h3>
         <p class="text-sm text-gray-400 max-w-xs mb-4">Student, tinkerer and web developer learning AI. I enjoy making small tools and learning by building.</p>
         <div class="flex gap-3">
@@ -135,18 +150,18 @@ main.container {
   <section class="mb-12">
     <h2 class="text-2xl font-semibold mb-4">Tools</h2>
     <div class="tools-scroll flex gap-6 overflow-x-auto py-2">
-      <a href="rimini.html" class="liquid-card min-w-[200px] text-center">
-        <img src="https://img.icons8.com/color/96/upscaler.png" class="mx-auto w-20 h-20 mb-3">
+      <a href="rimini.html" class="liquid-card min-w-[200px] text-center" data-aos="fade-up">
+        <img src="https://img.icons8.com/color/96/upscaler.png" class="mx-auto w-20 h-20 mb-3" alt="Rimini">
         <h4 class="font-medium">Rimini</h4>
         <p class="text-xs text-gray-400 mt-1">Image upscaler</p>
       </a>
-      <a href="nano-banana.html" class="liquid-card min-w-[200px] text-center">
-        <img src="https://img.icons8.com/color/96/banana.png" class="mx-auto w-20 h-20 mb-3">
+      <a href="nano-banana.html" class="liquid-card min-w-[200px] text-center" data-aos="fade-up" data-aos-delay="100">
+        <img src="https://img.icons8.com/color/96/banana.png" class="mx-auto w-20 h-20 mb-3" alt="Nano Banana">
         <h4 class="font-medium">Nano Banana</h4>
         <p class="text-xs text-gray-400 mt-1">Creative edits</p>
       </a>
-      <a href="face-swap.html" class="liquid-card min-w-[200px] text-center">
-        <img src="https://img.icons8.com/color/96/face-id.png" class="mx-auto w-20 h-20 mb-3">
+      <a href="face-swap.html" class="liquid-card min-w-[200px] text-center" data-aos="fade-up" data-aos-delay="200">
+        <img src="https://img.icons8.com/color/96/face-id.png" class="mx-auto w-20 h-20 mb-3" alt="Face Swap">
         <h4 class="font-medium">Face Swap</h4>
         <p class="text-xs text-gray-400 mt-1">AI face tools</p>
       </a>
@@ -157,7 +172,7 @@ main.container {
   <section class="grid md:grid-cols-2 gap-6 mb-12">
 
     <!-- Skills -->
-    <div class="liquid-card p-4">
+    <div class="liquid-card p-4" data-aos="fade-right">
       <h3 class="text-lg font-semibold mb-4">Skills</h3>
       <div class="space-y-4">
         <div>
@@ -182,7 +197,7 @@ main.container {
     </div>
 
     <!-- About + Location, Education, Interests & Expertise -->
-    <div class="liquid-card p-4">
+    <div class="liquid-card p-4" data-aos="fade-left">
       <h3 class="text-lg font-semibold mb-3">About</h3>
       <p class="text-sm text-gray-400 mb-3">Student focused on web development and AI. I enjoy building small tools and learning to ship faster.</p>
       
@@ -212,7 +227,6 @@ main.container {
           <p class="text-gray-400 text-sm">Learning (Student)</p>
         </div>
       </div>
-
     </div>
 
   </section>
@@ -236,10 +250,16 @@ main.container {
 
 <!-- Theme toggle & Feather icons -->
 <script>
-document.addEventListener('DOMContentLoaded', ()=>{ if(window.feather) feather.replace() });
+document.addEventListener('DOMContentLoaded', ()=>{ if(window.feather) feather.replace(); AOS.init({ once:true, duration:800 }); });
+
+// Persistent dark/light theme
 const toggleBtn = document.querySelector('[data-toggle-theme]');
 const htmlEl = document.documentElement;
-toggleBtn.addEventListener('click', () => { htmlEl.classList.toggle('dark'); });
+if(localStorage.getItem('theme') === 'dark') htmlEl.classList.add('dark');
+toggleBtn.addEventListener('click', () => {
+    htmlEl.classList.toggle('dark');
+    localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
+});
 </script>
 
 </body>
