@@ -1,217 +1,226 @@
 <!DOCTYPE html>
 <html lang="en" class="bg-white text-black">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cid Kageno — Boxed WhiteGlass</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cid Kageno — iOS26 Liquid Glass</title>
 
-  <!-- Tailwind CDN with system dark mode -->
-  <script>
-    tailwind.config = {
-      darkMode: 'media', // follows system preference
-      theme: { extend: {} },
-    }
-  </script>
-  <script src="https://cdn.tailwindcss.com"></script>
+<!-- Tailwind CDN with system dark mode -->
+<script>
+tailwind.config = { darkMode: 'media', theme: { extend: {} } };
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Feather Icons -->
-  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+<!-- Feather Icons -->
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
-  <style>
-    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+<style>
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
-    /* Glass card */
-    .glass-card {
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(15px);
-      border-radius: 1rem;
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .glass-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
+/* Liquid Glass Card */
+.liquid-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%) brightness(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.2);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+}
+.liquid-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  backdrop-filter: blur(25px) saturate(200%) brightness(1.25);
+}
 
-    .profile-pic {
-      width: 6rem;
-      height: 6rem;
-      border-radius: 9999px;
-      border: 2px solid rgba(255,255,255,0.3);
-      object-fit: cover;
-    }
+/* Profile Pic */
+.profile-pic {
+  width: 6rem; height: 6rem;
+  border-radius: 9999px;
+  border: 2px solid rgba(255,255,255,0.35);
+  object-fit: cover;
+  box-shadow: inset 0 0 8px rgba(255,255,255,0.3);
+}
 
-    .tools-scroll::-webkit-scrollbar { display: none; }
+/* Tools horizontal scroll */
+.tools-scroll::-webkit-scrollbar { display: none; }
 
-    .hero-blob {
-      position: absolute;
-      top: -3rem; left: -3rem;
-      width: 20rem; height: 20rem;
-      background: radial-gradient(circle at center, #ddd, transparent 70%);
-      filter: blur(100px);
-      z-index: -1;
-      animation: blobMove 20s infinite alternate;
-    }
+/* Hero Blob */
+.hero-blob {
+  position: absolute;
+  top: -4rem; left: -4rem;
+  width: 22rem; height: 22rem;
+  background: radial-gradient(circle at center, rgba(200,200,255,0.3), transparent 70%);
+  filter: blur(120px);
+  z-index: -1;
+  animation: blobMove 20s infinite alternate;
+}
+@keyframes blobMove {
+  0% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(40px,20px) scale(1.1); }
+  100% { transform: translate(0,-10px) scale(0.95); }
+}
 
-    @keyframes blobMove {
-      0% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(30px, 20px) scale(1.1); }
-      100% { transform: translate(0, -10px) scale(0.9); }
-    }
+/* Page Container */
+main.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
 
-    /* Page container border */
-    main.container {
-      border: 1px solid rgba(0,0,0,0.1);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 2rem auto;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(10px);
-    }
-  </style>
+/* Liquid Buttons */
+.liquid-btn {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(15px) saturate(180%) brightness(1.2);
+  border-radius: 1rem;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.liquid-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+}
+</style>
 </head>
 <body class="antialiased flex flex-col">
 
-  <!-- NAVBAR -->
-  <custom-navbar></custom-navbar>
+<!-- NAVBAR -->
+<custom-navbar></custom-navbar>
 
-  <!-- MAIN -->
-  <main class="container flex-1">
+<!-- MAIN -->
+<main class="container flex-1">
 
-    <!-- HERO -->
-    <section class="grid md:grid-cols-2 gap-10 items-center relative mb-12">
+  <!-- HERO -->
+  <section class="grid md:grid-cols-2 gap-10 items-center relative mb-12">
 
-      <!-- Left Card -->
-      <div class="glass-card border border-gray-300 dark:border-gray-600">
-        <div class="flex items-center gap-4 mb-4">
-          <div class="logo-dot shrink-0 text-xl font-bold border-b border-gray-300 dark:border-gray-600 pb-1">PG</div>
-          <div>
-            <h1 class="text-3xl font-bold border-b border-gray-300 dark:border-gray-600 pb-1">Cid <span class="text-gray-500 dark:text-gray-300">Kageno</span></h1>
-            <p class="text-sm text-gray-400 mt-1">HSC24 • Developer • AI enthusiast</p>
-          </div>
-        </div>
-        <p class="text-sm text-gray-400 leading-relaxed max-w-lg border-t border-gray-300 dark:border-gray-600 pt-2 mt-2">
-          I build small apps and bots. I experiment with AI and care about clean UIs, tiny performant code, and shipping things that teach me something.
-        </p>
-        <div class="mt-4 flex flex-wrap gap-3">
-          <a href="contact.html" class="px-5 py-2 rounded-lg text-white font-medium border border-gray-300 dark:border-gray-600" style="background: linear-gradient(90deg,#000,#333);">Contact</a>
-          <a href="projects.html" class="glass-card px-5 py-2 rounded-lg text-sm text-white border border-gray-300 dark:border-gray-600">Projects</a>
-          <button data-toggle-theme class="glass-card px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600" title="Toggle Theme">
-            <span id="themeIcon" class="text-sm">⛅</span>
-          </button>
+    <!-- Left Card -->
+    <div class="liquid-card">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="logo-dot shrink-0 text-xl font-bold">PG</div>
+        <div>
+          <h1 class="text-3xl font-bold">Cid <span class="text-gray-500 dark:text-gray-300">Kageno</span></h1>
+          <p class="text-sm text-gray-400 mt-1">HSC24 • Developer • AI enthusiast</p>
         </div>
       </div>
+      <p class="text-sm text-gray-400 leading-relaxed max-w-lg mt-2">
+        I build small apps and bots. I experiment with AI and care about clean UIs, tiny performant code, and shipping things that teach me something.
+      </p>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a href="contact.html" class="liquid-btn text-white">Contact</a>
+        <a href="projects.html" class="liquid-btn text-white">Projects</a>
+        <button data-toggle-theme class="liquid-btn"><span id="themeIcon">⛅</span></button>
+      </div>
+    </div>
 
-      <!-- Right Card -->
-      <div class="relative">
-        <div class="hero-blob" aria-hidden="true"></div>
-        <div class="glass-card flex flex-col items-center text-center border border-gray-300 dark:border-gray-600">
-          <img src="https://i.postimg.cc/g27cvRc7/Profile.jpg" alt="Cid Kageno" class="profile-pic mb-4 border border-gray-300 dark:border-gray-600">
-          <h3 class="text-lg font-semibold border-b border-gray-300 dark:border-gray-600 w-full pb-2 mb-2">Hello — I’m Cid</h3>
-          <p class="text-sm text-gray-400 mt-2 max-w-xs border-t border-gray-300 dark:border-gray-600 pt-2">Student, tinkerer and web developer learning AI. I enjoy making small tools and learning by building.</p>
-          <div class="mt-4 flex gap-3 w-full justify-center">
-            <a href="https://wa.me/8801731371266" target="_blank" class="glass-card px-4 py-2 rounded-md text-sm border border-gray-300 dark:border-gray-600">Message</a>
-            <a href="https://github.com" target="_blank" class="glass-card px-4 py-2 rounded-md text-sm border border-gray-300 dark:border-gray-600">GitHub</a>
-          </div>
+    <!-- Right Card -->
+    <div class="relative">
+      <div class="hero-blob" aria-hidden="true"></div>
+      <div class="liquid-card flex flex-col items-center text-center">
+        <img src="https://i.postimg.cc/g27cvRc7/Profile.jpg" alt="Cid Kageno" class="profile-pic mb-4">
+        <h3 class="text-lg font-semibold mb-2">Hello — I’m Cid</h3>
+        <p class="text-sm text-gray-400 max-w-xs mb-4">Student, tinkerer and web developer learning AI. I enjoy making small tools and learning by building.</p>
+        <div class="flex gap-3">
+          <a href="https://wa.me/8801731371266" target="_blank" class="liquid-btn text-sm">Message</a>
+          <a href="https://github.com" target="_blank" class="liquid-btn text-sm">GitHub</a>
         </div>
       </div>
+    </div>
 
-    </section>
+  </section>
 
-    <!-- TOOLS -->
-    <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4 border-b border-gray-300 dark:border-gray-600 pb-2">Tools</h2>
-      <div class="tools-scroll flex gap-6 overflow-x-auto py-2">
-        <a href="rimini.html" class="glass-card min-w-[200px] text-center border border-gray-300 dark:border-gray-600 p-4">
-          <img src="https://img.icons8.com/color/96/upscaler.png" class="mx-auto w-20 h-20 mb-3">
-          <h4 class="font-medium border-t border-gray-300 dark:border-gray-600 pt-2 mt-2">Rimini</h4>
-          <p class="text-xs text-gray-400 mt-1 border-t border-gray-300 dark:border-gray-600 pt-1">Image upscaler</p>
-        </a>
-        <a href="nano-banana.html" class="glass-card min-w-[200px] text-center border border-gray-300 dark:border-gray-600 p-4">
-          <img src="https://img.icons8.com/color/96/banana.png" class="mx-auto w-20 h-20 mb-3">
-          <h4 class="font-medium border-t border-gray-300 dark:border-gray-600 pt-2 mt-2">Nano Banana</h4>
-          <p class="text-xs text-gray-400 mt-1 border-t border-gray-300 dark:border-gray-600 pt-1">Creative edits</p>
-        </a>
-        <a href="face-swap.html" class="glass-card min-w-[200px] text-center border border-gray-300 dark:border-gray-600 p-4">
-          <img src="https://img.icons8.com/color/96/face-id.png" class="mx-auto w-20 h-20 mb-3">
-          <h4 class="font-medium border-t border-gray-300 dark:border-gray-600 pt-2 mt-2">Face Swap</h4>
-          <p class="text-xs text-gray-400 mt-1 border-t border-gray-300 dark:border-gray-600 pt-1">AI face tools</p>
-        </a>
-      </div>
-    </section>
+  <!-- TOOLS -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Tools</h2>
+    <div class="tools-scroll flex gap-6 overflow-x-auto py-2">
+      <a href="rimini.html" class="liquid-card min-w-[200px] text-center">
+        <img src="https://img.icons8.com/color/96/upscaler.png" class="mx-auto w-20 h-20 mb-3">
+        <h4 class="font-medium">Rimini</h4>
+        <p class="text-xs text-gray-400 mt-1">Image upscaler</p>
+      </a>
+      <a href="nano-banana.html" class="liquid-card min-w-[200px] text-center">
+        <img src="https://img.icons8.com/color/96/banana.png" class="mx-auto w-20 h-20 mb-3">
+        <h4 class="font-medium">Nano Banana</h4>
+        <p class="text-xs text-gray-400 mt-1">Creative edits</p>
+      </a>
+      <a href="face-swap.html" class="liquid-card min-w-[200px] text-center">
+        <img src="https://img.icons8.com/color/96/face-id.png" class="mx-auto w-20 h-20 mb-3">
+        <h4 class="font-medium">Face Swap</h4>
+        <p class="text-xs text-gray-400 mt-1">AI face tools</p>
+      </a>
+    </div>
+  </section>
 
-    <!-- SKILLS & ABOUT -->
-    <section class="grid md:grid-cols-2 gap-6 mb-12">
+  <!-- SKILLS & ABOUT -->
+  <section class="grid md:grid-cols-2 gap-6 mb-12">
 
-      <!-- Skills Card -->
-      <div class="glass-card border border-gray-300 dark:border-gray-600 p-4">
-        <h3 class="text-lg font-semibold mb-4 border-b border-gray-300 dark:border-gray-600 pb-2">Skills</h3>
-        <div class="space-y-4">
-          <div>
-            <div class="flex justify-between text-sm border-b border-gray-300 dark:border-gray-600 pb-1"><span>JavaScript</span><span>80%</span></div>
-            <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
-              <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:80%"></div>
-            </div>
+    <div class="liquid-card p-4">
+      <h3 class="text-lg font-semibold mb-4">Skills</h3>
+      <div class="space-y-4">
+        <div>
+          <div class="flex justify-between text-sm"><span>JavaScript</span><span>80%</span></div>
+          <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
+            <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:80%"></div>
           </div>
-          <div>
-            <div class="flex justify-between text-sm border-b border-gray-300 dark:border-gray-600 pb-1"><span>Python</span><span>70%</span></div>
-            <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
-              <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:70%"></div>
-            </div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm"><span>Python</span><span>70%</span></div>
+          <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
+            <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:70%"></div>
           </div>
-          <div>
-            <div class="flex justify-between text-sm border-b border-gray-300 dark:border-gray-600 pb-1"><span>HTML/CSS</span><span>85%</span></div>
-            <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
-              <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:85%"></div>
-            </div>
+        </div>
+        <div>
+          <div class="flex justify-between text-sm"><span>HTML/CSS</span><span>85%</span></div>
+          <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
+            <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:85%"></div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- About Card -->
-      <div class="glass-card border border-gray-300 dark:border-gray-600 p-4">
-        <h3 class="text-lg font-semibold mb-3 border-b border-gray-300 dark:border-gray-600 pb-2">About</h3>
-        <p class="text-sm text-gray-400 border-b border-gray-300 dark:border-gray-600 pb-2">Student focused on web development and AI. I enjoy building small tools and learning to ship faster.</p>
-        <div class="mt-4 grid grid-cols-2 gap-3">
-          <div class="glass-card p-3 text-center border border-gray-300 dark:border-gray-600">
-            <div class="font-semibold">Location</div>
-            <div class="text-sm text-gray-400">Bhanga, Faridpur</div>
-          </div>
-          <div class="glass-card p-3 text-center border border-gray-300 dark:border-gray-600">
-            <div class="font-semibold">Education</div>
-            <div class="text-sm text-gray-400">HSC24 — Government Rajendra College</div>
-          </div>
+    <div class="liquid-card p-4">
+      <h3 class="text-lg font-semibold mb-3">About</h3>
+      <p class="text-sm text-gray-400 mb-3">Student focused on web development and AI. I enjoy building small tools and learning to ship faster.</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="liquid-card p-3 text-center">
+          <div class="font-semibold">Location</div>
+          <div class="text-sm text-gray-400">Bhanga, Faridpur</div>
+        </div>
+        <div class="liquid-card p-3 text-center">
+          <div class="font-semibold">Education</div>
+          <div class="text-sm text-gray-400">HSC24 — Government Rajendra College</div>
         </div>
       </div>
+    </div>
 
-    </section>
+  </section>
 
-    <!-- FOOTER -->
-    <custom-footer></custom-footer>
+  <!-- FOOTER -->
+  <custom-footer></custom-footer>
 
-  </main>
+</main>
 
-  <!-- CHAT PILL -->
-  <a href="chat.html" class="fixed bottom-6 right-6 bg-black dark:bg-white text-white dark:text-black rounded-full p-3 flex items-center gap-2 shadow-lg hover:scale-105 transition-transform">
-    <span class="hidden sm:inline">Chat</span>
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8-1.273 0-2.466-.21-3.557-.588L3 20l1.588-3.444C3.51 15.222 3 13.65 3 12 3 7.582 7.03 4 12 4s9 3.582 9 8z"/>
-    </svg>
-  </a>
+<!-- CHAT PILL -->
+<a href="chat.html" class="fixed bottom-6 right-6 bg-white/20 dark:bg-black/20 text-black dark:text-white rounded-full p-3 flex items-center gap-2 shadow-lg hover:scale-105 transition-transform">
+  <span class="hidden sm:inline">Chat</span>
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8-1.273 0-2.466-.21-3.557-.588L3 20l1.588-3.444C3.51 15.222 3 13.65 3 12 3 7.582 7.03 4 12 4s9 3.582 9 8z"/>
+  </svg>
+</a>
 
-  <script src="components/navbar.js"></script>
-  <script src="components/footer.js"></script>
-  <script src="script.js"></script>
+<script src="components/navbar.js"></script>
+<script src="components/footer.js"></script>
+<script src="script.js"></script>
 
-  <!-- Theme toggle -->
-  <script>
-    document.addEventListener('DOMContentLoaded', ()=>{ if(window.feather) feather.replace() });
-    const toggleBtn = document.querySelector('[data-toggle-theme]');
-    const htmlEl = document.documentElement;
-    toggleBtn.addEventListener('click', () => { htmlEl.classList.toggle('dark'); });
-  </script>
+<!-- Theme toggle -->
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{ if(window.feather) feather.replace() });
+const toggleBtn = document.querySelector('[data-toggle-theme]');
+const htmlEl = document.documentElement;
+toggleBtn.addEventListener('click', () => { htmlEl.classList.toggle('dark'); });
+</script>
+
 </body>
 </html>
