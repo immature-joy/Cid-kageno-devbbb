@@ -1,0 +1,40 @@
+/* --------------------------------------------------------
+   PURE WHITE & PURE BLACK THEME — iOS LIQUID GLASS
+--------------------------------------------------------- */
+
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+
+  --glass-light: rgba(255, 255, 255, 0.55);
+  --glass-dark: rgba(0, 0, 0, 0.45);
+
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.08);
+
+  --muted: #666666;
+
+  --accent-a: #000000; /* buttons/hover in light mode */
+  --accent-b: #ffffff; /* buttons/hover in dark mode */
+
+  --radius: 20px;
+  --trans: 0.25s cubic-bezier(.2,.8,.2,1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --fg: #ffffff;
+
+    --glass-light: rgba(255, 255, 255, 0.06);
+    --glass-dark: rgba(255, 255, 255, 0.12);
+
+    --border-light: rgba(255, 255, 255, 0.12);
+    --border-dark: rgba(255, 255, 255, 0.18);
+
+    --muted: #bbbbbb;
+
+    --accent-a: #ffffff;
+    --accent-b: #000000;
+  }
+}
