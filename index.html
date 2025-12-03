@@ -156,6 +156,7 @@ main.container {
   <!-- SKILLS & ABOUT -->
   <section class="grid md:grid-cols-2 gap-6 mb-12">
 
+    <!-- Skills -->
     <div class="liquid-card p-4">
       <h3 class="text-lg font-semibold mb-4">Skills</h3>
       <div class="space-y-4">
@@ -164,18 +165,9 @@ main.container {
           <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
             <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:80%"></div>
           </div>
-          <div class="glass p-5 rounded-xl border border-white/15 text-center sm:text-left" data-aos="fade-right" data-aos-delay="300">
-          <div class="text-primary-500 mb-2 text-2xl"><i data-feather="heart"></i></div>
-          <h3 class="font-medium text-white mb-1">Interests</h3>
-          <p class="text-gray-400">AI, Bot Development, Web Dev</p>
         </div>
-        <div class="glass p-5 rounded-xl border border-white/15 text-center sm:text-left" data-aos="fade-right" data-aos-delay="400">
-          <div class="text-primary-500 mb-2 text-2xl"><i data-feather="award"></i></div>
-          <h3 class="font-medium text-white mb-1">Expertise</h3>
-          <p class="text-gray-400">Learning (Student)</p>
-        </div>
-      </div>
-         <div class="flex justify-between text-sm"><span>Python</span><span>70%</span></div>
+        <div>
+          <div class="flex justify-between text-sm"><span>Python</span><span>70%</span></div>
           <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
             <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:70%"></div>
           </div>
@@ -189,10 +181,13 @@ main.container {
       </div>
     </div>
 
+    <!-- About + Location, Education, Interests & Expertise -->
     <div class="liquid-card p-4">
       <h3 class="text-lg font-semibold mb-3">About</h3>
       <p class="text-sm text-gray-400 mb-3">Student focused on web development and AI. I enjoy building small tools and learning to ship faster.</p>
-      <div class="grid grid-cols-2 gap-3">
+      
+      <!-- Location & Education -->
+      <div class="grid grid-cols-2 gap-3 mb-4">
         <div class="liquid-card p-3 text-center">
           <div class="font-semibold">Location</div>
           <div class="text-sm text-gray-400">Bhanga, Faridpur</div>
@@ -202,6 +197,22 @@ main.container {
           <div class="text-sm text-gray-400">HSC-24 — Government Rajendra College</div>
         </div>
       </div>
+
+      <!-- Interests & Expertise -->
+      <div class="grid grid-cols-2 gap-3">
+        <div class="liquid-card p-3 text-center sm:text-left" data-aos="fade-right" data-aos-delay="300">
+          <div class="text-gray-200 mb-2 text-2xl"><i data-feather="heart"></i></div>
+          <h3 class="font-medium text-white mb-1">Interests</h3>
+          <p class="text-gray-400 text-sm">AI, Bot Development, Web Dev</p>
+        </div>
+
+        <div class="liquid-card p-3 text-center sm:text-left" data-aos="fade-right" data-aos-delay="400">
+          <div class="text-gray-200 mb-2 text-2xl"><i data-feather="award"></i></div>
+          <h3 class="font-medium text-white mb-1">Expertise</h3>
+          <p class="text-gray-400 text-sm">Learning (Student)</p>
+        </div>
+      </div>
+
     </div>
 
   </section>
@@ -223,7 +234,7 @@ main.container {
 <script src="components/footer.js"></script>
 <script src="script.js"></script>
 
-<!-- Theme toggle -->
+<!-- Theme toggle & Feather icons -->
 <script>
 document.addEventListener('DOMContentLoaded', ()=>{ if(window.feather) feather.replace() });
 const toggleBtn = document.querySelector('[data-toggle-theme]');
