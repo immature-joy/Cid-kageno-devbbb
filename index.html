@@ -83,81 +83,87 @@
 
     <!-- HERO -->
     <section class="grid md:grid-cols-2 gap-10 items-center relative mb-12">
-      <div class="glass-card">
+
+      <!-- Left Card -->
+      <div class="glass-card border border-gray-300 dark:border-gray-600">
         <div class="flex items-center gap-4 mb-4">
-          <div class="logo-dot shrink-0 text-xl font-bold">PG</div>
+          <div class="logo-dot shrink-0 text-xl font-bold border-b border-gray-300 dark:border-gray-600 pb-1">PG</div>
           <div>
-            <h1 class="text-3xl font-bold">Cid <span class="text-gray-500 dark:text-gray-300">Kageno</span></h1>
+            <h1 class="text-3xl font-bold border-b border-gray-300 dark:border-gray-600 pb-1">Cid <span class="text-gray-500 dark:text-gray-300">Kageno</span></h1>
             <p class="text-sm text-gray-400 mt-1">HSC24 • Developer • AI enthusiast</p>
           </div>
         </div>
-        <p class="text-sm text-gray-400 leading-relaxed max-w-lg">
+        <p class="text-sm text-gray-400 leading-relaxed max-w-lg border-t border-gray-300 dark:border-gray-600 pt-2 mt-2">
           I build small apps and bots. I experiment with AI and care about clean UIs, tiny performant code, and shipping things that teach me something.
         </p>
         <div class="mt-4 flex flex-wrap gap-3">
-          <a href="contact.html" class="px-5 py-2 rounded-lg text-white font-medium" style="background: linear-gradient(90deg,#000,#333);">Contact</a>
-          <a href="projects.html" class="glass-card px-5 py-2 rounded-lg text-sm text-white">Projects</a>
-          <button data-toggle-theme class="glass-card px-3 py-2 rounded-lg" title="Toggle Theme">
+          <a href="contact.html" class="px-5 py-2 rounded-lg text-white font-medium border border-gray-300 dark:border-gray-600" style="background: linear-gradient(90deg,#000,#333);">Contact</a>
+          <a href="projects.html" class="glass-card px-5 py-2 rounded-lg text-sm text-white border border-gray-300 dark:border-gray-600">Projects</a>
+          <button data-toggle-theme class="glass-card px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600" title="Toggle Theme">
             <span id="themeIcon" class="text-sm">⛅</span>
           </button>
         </div>
       </div>
 
+      <!-- Right Card -->
       <div class="relative">
         <div class="hero-blob" aria-hidden="true"></div>
-        <div class="glass-card flex flex-col items-center text-center">
-          <img src="https://i.postimg.cc/g27cvRc7/Profile.jpg" alt="Cid Kageno" class="profile-pic mb-4">
-          <h3 class="text-lg font-semibold">Hello — I’m Cid</h3>
-          <p class="text-sm text-gray-400 mt-2 max-w-xs">Student, tinkerer and web developer learning AI. I enjoy making small tools and learning by building.</p>
-          <div class="mt-4 flex gap-3">
-            <a href="https://wa.me/8801731371266" target="_blank" class="glass-card px-4 py-2 rounded-md text-sm">Message</a>
-            <a href="https://github.com" target="_blank" class="glass-card px-4 py-2 rounded-md text-sm">GitHub</a>
+        <div class="glass-card flex flex-col items-center text-center border border-gray-300 dark:border-gray-600">
+          <img src="https://i.postimg.cc/g27cvRc7/Profile.jpg" alt="Cid Kageno" class="profile-pic mb-4 border border-gray-300 dark:border-gray-600">
+          <h3 class="text-lg font-semibold border-b border-gray-300 dark:border-gray-600 w-full pb-2 mb-2">Hello — I’m Cid</h3>
+          <p class="text-sm text-gray-400 mt-2 max-w-xs border-t border-gray-300 dark:border-gray-600 pt-2">Student, tinkerer and web developer learning AI. I enjoy making small tools and learning by building.</p>
+          <div class="mt-4 flex gap-3 w-full justify-center">
+            <a href="https://wa.me/8801731371266" target="_blank" class="glass-card px-4 py-2 rounded-md text-sm border border-gray-300 dark:border-gray-600">Message</a>
+            <a href="https://github.com" target="_blank" class="glass-card px-4 py-2 rounded-md text-sm border border-gray-300 dark:border-gray-600">GitHub</a>
           </div>
         </div>
       </div>
+
     </section>
 
     <!-- TOOLS -->
     <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4">Tools</h2>
+      <h2 class="text-2xl font-semibold mb-4 border-b border-gray-300 dark:border-gray-600 pb-2">Tools</h2>
       <div class="tools-scroll flex gap-6 overflow-x-auto py-2">
-        <a href="rimini.html" class="glass-card min-w-[200px] text-center">
+        <a href="rimini.html" class="glass-card min-w-[200px] text-center border border-gray-300 dark:border-gray-600 p-4">
           <img src="https://img.icons8.com/color/96/upscaler.png" class="mx-auto w-20 h-20 mb-3">
-          <h4 class="font-medium">Rimini</h4>
-          <p class="text-xs text-gray-400 mt-1">Image upscaler</p>
+          <h4 class="font-medium border-t border-gray-300 dark:border-gray-600 pt-2 mt-2">Rimini</h4>
+          <p class="text-xs text-gray-400 mt-1 border-t border-gray-300 dark:border-gray-600 pt-1">Image upscaler</p>
         </a>
-        <a href="nano-banana.html" class="glass-card min-w-[200px] text-center">
+        <a href="nano-banana.html" class="glass-card min-w-[200px] text-center border border-gray-300 dark:border-gray-600 p-4">
           <img src="https://img.icons8.com/color/96/banana.png" class="mx-auto w-20 h-20 mb-3">
-          <h4 class="font-medium">Nano Banana</h4>
-          <p class="text-xs text-gray-400 mt-1">Creative edits</p>
+          <h4 class="font-medium border-t border-gray-300 dark:border-gray-600 pt-2 mt-2">Nano Banana</h4>
+          <p class="text-xs text-gray-400 mt-1 border-t border-gray-300 dark:border-gray-600 pt-1">Creative edits</p>
         </a>
-        <a href="face-swap.html" class="glass-card min-w-[200px] text-center">
+        <a href="face-swap.html" class="glass-card min-w-[200px] text-center border border-gray-300 dark:border-gray-600 p-4">
           <img src="https://img.icons8.com/color/96/face-id.png" class="mx-auto w-20 h-20 mb-3">
-          <h4 class="font-medium">Face Swap</h4>
-          <p class="text-xs text-gray-400 mt-1">AI face tools</p>
+          <h4 class="font-medium border-t border-gray-300 dark:border-gray-600 pt-2 mt-2">Face Swap</h4>
+          <p class="text-xs text-gray-400 mt-1 border-t border-gray-300 dark:border-gray-600 pt-1">AI face tools</p>
         </a>
       </div>
     </section>
 
     <!-- SKILLS & ABOUT -->
     <section class="grid md:grid-cols-2 gap-6 mb-12">
-      <div class="glass-card">
-        <h3 class="text-lg font-semibold mb-4">Skills</h3>
+
+      <!-- Skills Card -->
+      <div class="glass-card border border-gray-300 dark:border-gray-600 p-4">
+        <h3 class="text-lg font-semibold mb-4 border-b border-gray-300 dark:border-gray-600 pb-2">Skills</h3>
         <div class="space-y-4">
           <div>
-            <div class="flex justify-between text-sm"><span>JavaScript</span><span>80%</span></div>
+            <div class="flex justify-between text-sm border-b border-gray-300 dark:border-gray-600 pb-1"><span>JavaScript</span><span>80%</span></div>
             <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
               <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:80%"></div>
             </div>
           </div>
           <div>
-            <div class="flex justify-between text-sm"><span>Python</span><span>70%</span></div>
+            <div class="flex justify-between text-sm border-b border-gray-300 dark:border-gray-600 pb-1"><span>Python</span><span>70%</span></div>
             <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
               <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:70%"></div>
             </div>
           </div>
           <div>
-            <div class="flex justify-between text-sm"><span>HTML/CSS</span><span>85%</span></div>
+            <div class="flex justify-between text-sm border-b border-gray-300 dark:border-gray-600 pb-1"><span>HTML/CSS</span><span>85%</span></div>
             <div class="w-full h-2 bg-gray-300 rounded-full mt-1">
               <div class="h-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900" style="width:85%"></div>
             </div>
@@ -165,20 +171,22 @@
         </div>
       </div>
 
-      <div class="glass-card">
-        <h3 class="text-lg font-semibold mb-3">About</h3>
-        <p class="text-sm text-gray-400">Student focused on web development and AI. I enjoy building small tools and learning to ship faster.</p>
+      <!-- About Card -->
+      <div class="glass-card border border-gray-300 dark:border-gray-600 p-4">
+        <h3 class="text-lg font-semibold mb-3 border-b border-gray-300 dark:border-gray-600 pb-2">About</h3>
+        <p class="text-sm text-gray-400 border-b border-gray-300 dark:border-gray-600 pb-2">Student focused on web development and AI. I enjoy building small tools and learning to ship faster.</p>
         <div class="mt-4 grid grid-cols-2 gap-3">
-          <div class="glass-card p-3 text-center">
+          <div class="glass-card p-3 text-center border border-gray-300 dark:border-gray-600">
             <div class="font-semibold">Location</div>
             <div class="text-sm text-gray-400">Bhanga, Faridpur</div>
           </div>
-          <div class="glass-card p-3 text-center">
+          <div class="glass-card p-3 text-center border border-gray-300 dark:border-gray-600">
             <div class="font-semibold">Education</div>
             <div class="text-sm text-gray-400">HSC24 — Government Rajendra College</div>
           </div>
         </div>
       </div>
+
     </section>
 
     <!-- FOOTER -->
