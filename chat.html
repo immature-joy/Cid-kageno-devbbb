@@ -43,7 +43,7 @@
       display: flex;
       flex-direction: column;
       scroll-behavior: smooth;
-      margin-bottom: 4.5rem; /* space for input area */
+      margin-bottom: 5.5rem; /* space for fixed input */
     }
 
     .chat-bubble {
@@ -68,6 +68,7 @@
       background-color: rgba(0,0,0,0.35);
     }
 
+    /* Fixed input bar */
     #input-area {
       position: fixed;
       bottom: 0;
@@ -75,10 +76,13 @@
       right: 0;
       display: flex;
       gap: 0.5rem;
-      padding: 0.5rem;
+      padding: 0.5rem 1rem;
       background: inherit;
       align-items: center;
       z-index: 100;
+      margin: 0;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
     }
 
     #user-input {
@@ -101,7 +105,7 @@
 
     @media (max-width: 640px) {
       body { font-size: 16px; }
-      header, footer { margin: 0.5rem; font-size: 1.5rem; }
+      header, footer { font-size: 1.5rem; }
     }
   </style>
 </head>
@@ -115,7 +119,7 @@
     </div>
   </main>
 
-  <div id="input-area" class="glass mx-4 mb-4">
+  <div id="input-area" class="glass">
     <input type="text" id="user-input" placeholder="Type your message..." aria-label="Type your message">
     <button id="send-btn"><i data-feather="send"></i> Send</button>
   </div>
