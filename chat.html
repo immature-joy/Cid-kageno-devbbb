@@ -132,6 +132,8 @@
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
 
+    const API_URL = "https://noobs-api.top/dipto/baby";
+
     function appendMessage(text, sender = 'bot') {
       const bubble = document.createElement('div');
       bubble.classList.add('chat-bubble', sender, 'glass');
@@ -140,25 +142,25 @@
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
+    async function queryAI(message, userID = "user123") {
+      try {
+        const res = await fetch(`${API_URL}?text=${encodeURIComponent(message)}&senderID=${userID}`);
+        const data = await res.json();
+        return data.reply || data.data || "The shadows are silent...";
+      } catch(err) {
+        console.error(err);
+        return "The shadows are disturbed... try again later.";
+      }
+    }
+
     async function sendMessage() {
-      const msg = userInput.value.trim();
-      if (!msg) return;
-      appendMessage(msg, 'user');
+      const message = userInput.value.trim();
+      if (!message) return;
+      appendMessage(message, 'user');
       userInput.value = '';
 
-      try {
-        const response = await fetch('https://noobs-api.top/dipto', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ msg })
-        });
-        const data = await response.json();
-        const botReply = data.data || "Sorry, no response from the API.";
-        appendMessage(botReply, 'bot');
-      } catch (err) {
-        console.error(err);
-        appendMessage("Error contacting API.", 'bot');
-      }
+      const botReply = await queryAI(message);
+      appendMessage(botReply, 'bot');
     }
 
     sendBtn.addEventListener('click', sendMessage);
