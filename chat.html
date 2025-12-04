@@ -43,7 +43,7 @@
       display: flex;
       flex-direction: column;
       scroll-behavior: smooth;
-      margin-bottom: 5.5rem; /* space for fixed input */
+      margin-bottom: 6rem; /* space for input bar */
     }
 
     .chat-bubble {
@@ -68,6 +68,15 @@
       background-color: rgba(0,0,0,0.35);
     }
 
+    /* Typing indicator */
+    #typing-indicator {
+      align-self: flex-start;
+      font-style: italic;
+      color: gray;
+      margin: 0.25rem 0;
+      display: none;
+    }
+
     /* Fixed input bar */
     #input-area {
       position: fixed;
@@ -80,9 +89,9 @@
       background: inherit;
       align-items: center;
       z-index: 100;
-      margin: 0;
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
+      margin: 0;
     }
 
     #user-input {
@@ -101,6 +110,7 @@
       border: none;
       border-radius: 0.75rem;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     @media (max-width: 640px) {
@@ -111,9 +121,9 @@
 </head>
 <body>
 
-  <header class="glass mx-4 mt-4 text-2xl font-bold">Chat bot</header>
+  <header class="glass text-2xl font-bold">Chat bot</header>
 
-  <main class="flex-1 container mx-auto px-0 py-0 flex flex-col glass mx-4 my-2">
+  <main class="flex-1 container mx-auto px-0 py-0 flex flex-col glass my-2">
     <div id="chat-container">
       <div class="chat-bubble bot glass">Welcome, shadow walker. Ask anything you desire.</div>
     </div>
@@ -124,7 +134,7 @@
     <button id="send-btn"><i data-feather="send"></i> Send</button>
   </div>
 
-  <footer class="text-center p-4 text-sm opacity-60 glass mx-4 mb-4 rounded-xl">
+  <footer class="text-center p-4 text-sm opacity-60 glass rounded-xl">
     © Cid Kageno
   </footer>
 
@@ -163,7 +173,19 @@
       appendMessage(message, 'user');
       userInput.value = '';
 
+      // Show typing indicator
+      const typing = document.createElement('div');
+      typing.id = 'typing-indicator';
+      typing.textContent = "ShadowGPT is typing...";
+      chatContainer.appendChild(typing);
+      typing.style.display = "block";
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
       const botReply = await queryAI(message);
+
+      // Remove typing indicator
+      typing.remove();
+
       appendMessage(botReply, 'bot');
     }
 
