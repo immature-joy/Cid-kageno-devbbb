@@ -77,43 +77,51 @@
       display: none;
     }
 
-    /* Fixed input bar */
+    /* Fixed input bar with messenger-style send button */
     #input-area {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      display: flex;
-      gap: 0.5rem;
       padding: 0.5rem 1rem;
       background: inherit;
-      align-items: center;
+      display: flex;
       z-index: 100;
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
-      margin: 0;
+    }
+
+    .input-wrapper {
+      position: relative;
+      flex: 1;
     }
 
     #user-input {
-      flex: 1;
-      padding: 0.75rem 1rem;
+      width: 100%;
+      padding: 0.75rem 3rem 0.75rem 1rem; /* right padding for send button */
       font-size: 1rem;
       border: 1px solid currentColor;
-      border-radius: 0.75rem;
+      border-radius: 9999px; /* pill shape like Messenger */
       background: transparent;
       color: inherit;
     }
 
     #send-btn {
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 0.75rem;
-      cursor: pointer;
-      flex-shrink: 0; /* prevent shrinking */
+      position: absolute;
+      right: 0.25rem;
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      justify-content: center;
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      flex-shrink: 0;
+      background-color: rgba(0,120,255,0.15);
+    }
+    .dark #send-btn {
+      background-color: rgba(0,120,255,0.25);
     }
 
     @media (max-width: 640px) {
@@ -133,10 +141,12 @@
   </main>
 
   <div id="input-area" class="glass">
-    <input type="text" id="user-input" placeholder="Type your message..." aria-label="Type your message">
-    <button id="send-btn" class="glass">
-      <i data-feather="send"></i> Send
-    </button>
+    <div class="input-wrapper">
+      <input type="text" id="user-input" placeholder="Type your message..." aria-label="Type your message">
+      <button id="send-btn">
+        <i data-feather="send"></i>
+      </button>
+    </div>
   </div>
 
   <footer class="text-center p-4 text-sm opacity-60 glass rounded-xl">
