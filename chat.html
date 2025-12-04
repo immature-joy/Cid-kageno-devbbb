@@ -9,6 +9,12 @@
   tailwind.config = { darkMode: 'media', theme: { extend: {} } };
 </script>
 <style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
   .glass {
     backdrop-filter: blur(12px);
     background-color: rgba(255, 255, 255, 0.2);
@@ -19,6 +25,7 @@
     background-color: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
+
   #chat-box::-webkit-scrollbar { width: 6px; }
   #chat-box::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.2); border-radius: 3px; }
 
@@ -36,16 +43,28 @@
   }
 </style>
 </head>
-<body class="flex items-center justify-center h-screen p-4">
+<body class="flex flex-col h-screen">
 
-<div class="w-full max-w-md flex flex-col glass dark:glass-dark rounded-2xl shadow-lg overflow-hidden">
-  <div id="chat-box" class="flex-1 p-4 overflow-y-auto h-96 flex flex-col"></div>
-  <div class="flex border-t border-white/20">
-    <input id="user-input" type="text" placeholder="Type a message..." 
-           class="flex-1 p-3 bg-transparent outline-none text-black dark:text-white placeholder-black/50 dark:placeholder-white/50" />
-    <button id="send-btn" class="px-4 bg-black/20 dark:bg-white/20 text-white dark:text-black font-semibold">Send</button>
+  <!-- Chat Header -->
+  <div class="glass dark:glass-dark flex items-center justify-between p-4 shadow-md">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-700"></div>
+      <div>
+        <p class="font-semibold">Baby Bot</p>
+        <p class="text-xs opacity-70">Online</p>
+      </div>
+    </div>
   </div>
-</div>
+
+  <!-- Chat Messages -->
+  <div id="chat-box" class="flex-1 p-4 overflow-y-auto flex flex-col gap-2"></div>
+
+  <!-- Input Area -->
+  <div class="glass dark:glass-dark p-4 flex gap-2 items-center shadow-t">
+    <input id="user-input" type="text" placeholder="Type a message..."
+           class="flex-1 p-3 bg-transparent outline-none text-black dark:text-white placeholder-black/50 dark:placeholder-white/50 rounded-full border border-white/20 dark:border-white/10" />
+    <button id="send-btn" class="px-4 py-2 bg-black/20 dark:bg-white/20 text-white dark:text-black font-semibold rounded-full">Send</button>
+  </div>
 
 <script>
 const chatBox = document.getElementById('chat-box');
@@ -54,7 +73,7 @@ const sendBtn = document.getElementById('send-btn');
 
 function appendMessage(message, type) {
   const msgDiv = document.createElement('div');
-  msgDiv.className = `message my-2 px-3 py-2 rounded-xl max-w-[80%] break-words self-${type === 'user' ? 'end' : 'start'} ${
+  msgDiv.className = `message max-w-[75%] px-4 py-2 rounded-xl break-words self-${type === 'user' ? 'end' : 'start'} ${
     type === 'user' ? 'bg-black/20 dark:bg-white/20 text-black dark:text-white' : 'bg-white/20 dark:bg-black/20 text-black dark:text-white'
   }`;
   msgDiv.textContent = message;
@@ -69,7 +88,7 @@ async function sendMessage() {
   userInput.value = '';
 
   try {
-    const response = await fetch('https://noobs-api.top/dipto/baby', {
+    const response = await fetch('https://noobs-api.top/dipto', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ msg })
