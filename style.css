@@ -5,10 +5,12 @@
   --trans: 0.25s ease;
 }
 
+/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
+/* Light mode base */
 body {
   font-family: "Inter", sans-serif;
   background-color: #f5f5f7;
@@ -16,54 +18,63 @@ body {
   transition: background var(--trans), color var(--trans);
 }
 
-body.dark {
-  background-color: #0d0d0d;
-  color: #f8f8f8;
+/* Auto Dark Mode (System-controlled) */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #0d0d0d;
+    color: #f8f8f8;
+  }
 }
 
 /* Liquid Glass Cards */
 .liquid-card {
-  backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.1);
-  -webkit-backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.1);
-  background-color: rgba(255,255,255,0.2);
+  backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.15);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.15);
+  background-color: rgba(255, 255, 255, 0.25);
   border-radius: var(--radius);
-  border: 1px solid rgba(255,255,255,0.25);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.06);
   transition: transform var(--trans), box-shadow var(--trans), background var(--trans);
 }
 
-body.dark .liquid-card {
-  background-color: rgba(20,20,20,0.25);
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+/* iOS style: deeper contrast in dark mode */
+@media (prefers-color-scheme: dark) {
+  .liquid-card {
+    background-color: rgba(30, 30, 30, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  }
 }
 
 /* Buttons */
 .liquid-btn {
   padding: 0.5rem 1.5rem;
   border-radius: var(--radius);
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.1);
   -webkit-backdrop-filter: blur(var(--blur)) saturate(180%) brightness(1.1);
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255, 255, 255, 0.25);
   color: inherit;
   font-weight: 500;
   transition: transform var(--trans), box-shadow var(--trans), background var(--trans);
 }
 
-body.dark .liquid-btn {
-  border: 1px solid rgba(255,255,255,0.1);
-  background-color: rgba(20,20,20,0.25);
+@media (prefers-color-scheme: dark) {
+  .liquid-btn {
+    border: 1px solid rgba(255,255,255,0.12);
+    background-color: rgba(30,30,30,0.35);
+  }
 }
 
-/* Hover Effects */
-.liquid-card:hover, .liquid-btn:hover {
+/* Hover */
+.liquid-card:hover,
+.liquid-btn:hover {
   transform: translateY(-4px) scale(1.02);
 }
 
-/* Accent button */
+/* Accent Button */
 .liquid-btn-primary {
   background-color: var(--accent);
   color: white;
-  box-shadow: 0 6px 20px rgba(108,92,231,0.5);
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.45);
 }
