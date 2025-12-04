@@ -43,7 +43,7 @@
       display: flex;
       flex-direction: column;
       scroll-behavior: smooth;
-      margin-bottom: 6rem; /* space for input bar */
+      margin-bottom: 6rem; /* space for fixed input */
     }
 
     .chat-bubble {
@@ -105,12 +105,15 @@
     }
 
     #send-btn {
-      padding: 0.75rem 1.25rem;
+      padding: 0.5rem 1rem;
       font-size: 1rem;
       border: none;
       border-radius: 0.75rem;
       cursor: pointer;
-      flex-shrink: 0;
+      flex-shrink: 0; /* prevent shrinking */
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
     }
 
     @media (max-width: 640px) {
@@ -131,7 +134,9 @@
 
   <div id="input-area" class="glass">
     <input type="text" id="user-input" placeholder="Type your message..." aria-label="Type your message">
-    <button id="send-btn"><i data-feather="send"></i> Send</button>
+    <button id="send-btn" class="glass">
+      <i data-feather="send"></i> Send
+    </button>
   </div>
 
   <footer class="text-center p-4 text-sm opacity-60 glass rounded-xl">
@@ -173,19 +178,17 @@
       appendMessage(message, 'user');
       userInput.value = '';
 
-      // Show typing indicator
+      // Typing indicator
       const typing = document.createElement('div');
       typing.id = 'typing-indicator';
-      typing.textContent = "ShadowGPT is typing...";
+      typing.textContent = "Shadow is typing...";
       chatContainer.appendChild(typing);
       typing.style.display = "block";
       chatContainer.scrollTop = chatContainer.scrollHeight;
 
       const botReply = await queryAI(message);
 
-      // Remove typing indicator
-      typing.remove();
-
+      typing.remove(); // remove indicator
       appendMessage(botReply, 'bot');
     }
 
