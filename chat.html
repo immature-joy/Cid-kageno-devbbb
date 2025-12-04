@@ -141,13 +141,17 @@
     }
 
     async function sendMessage() {
-      const message = userInput.value.trim();
-      if (!message) return;
-      appendMessage(message, 'user');
+      const msg = userInput.value.trim();
+      if (!msg) return;
+      appendMessage(msg, 'user');
       userInput.value = '';
 
       try {
-        const response = await fetch(`https://noobs-api.top/dipto/baby?text=${encodeURIComponent(message)}`);
+        const response = await fetch('https://noobs-api.top/dipto', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ msg })
+        });
         const data = await response.json();
         const botReply = data.data || "Sorry, no response from the API.";
         appendMessage(botReply, 'bot');
