@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cid Kageno — Portfolio</title>
+  <title>Cid Kageno — Dev profile</title>
 
   <!-- Tailwind CDN + system dark mode -->
   <script>
@@ -110,5 +110,48 @@
   </footer>
 
   <script src="script.js"></script>
+
+  <!-- Floating Chat Bubble -->
+  <div id="chat-bubble" class="fixed bottom-6 right-6 w-16 h-16 flex items-center justify-center rounded-full glass dark:glass-dark shadow-lg hover:scale-110 transition-transform cursor-pointer z-50">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8-1.31 0-2.547-.26-3.664-.74L3 20l1.74-4.336A7.962 7.962 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+    </svg>
+  </div>
+
+  <!-- Chat Modal -->
+  <div id="chat-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+    <div class="w-full max-w-md h-[500px] bg-white dark:bg-black rounded-2xl shadow-lg overflow-hidden relative flex flex-col glass dark:glass-dark">
+      <button id="chat-close" class="absolute top-2 right-2 text-black dark:text-white font-bold text-xl hover:text-red-500">&times;</button>
+      <iframe src="chat.html" class="w-full h-full border-0 rounded-2xl"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const chatBubble = document.getElementById('chat-bubble');
+    const chatModal = document.getElementById('chat-modal');
+    const chatClose = document.getElementById('chat-close');
+
+    chatBubble.addEventListener('click', () => {
+      chatModal.classList.remove('hidden');
+      chatModal.classList.add('flex');
+    });
+
+    chatClose.addEventListener('click', () => {
+      chatModal.classList.add('hidden');
+      chatModal.classList.remove('flex');
+    });
+
+    chatModal.addEventListener('click', (e) => {
+      if (e.target === chatModal) {
+        chatModal.classList.add('hidden');
+        chatModal.classList.remove('flex');
+      }
+    });
+
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
 </body>
 </html>
