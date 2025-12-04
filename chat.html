@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-white text-black dark:bg-black dark:text-white">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Chat</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { darkMode: 'media', theme: { extend: {} } };
+</script>
+<style>
+  .glass {
+    backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .glass-dark {
+    backdrop-filter: blur(12px);
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  #chat-box::-webkit-scrollbar { width: 6px; }
+  #chat-box::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.2); border-radius: 3px; }
+
+  /* Message animation */
+  .message {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.3s forwards;
+  }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+<body class="flex items-center justify-center h-screen p-4">
+
+<div class="w-full max-w-md flex flex-col glass dark:glass-dark rounded-2xl shadow-lg overflow-hidden">
+  <div id="chat-box" class="flex-1 p-4 overflow-y-auto h-96 flex flex-col"></div>
+  <div class="flex border-t border-white/20">
+    <input id="user-input" type="text" placeholder="Type a message..." 
+           class="flex-1 p-3 bg-transparent outline-none text-black dark:text-white placeholder-black/50 dark:placeholder-white/50" />
+    <button id="send-btn" class="px-4 bg-black/20 dark:bg-white/20 text-white dark:text-black font-semibold">Send</button>
+  </div>
+</div>
+
+<script>
+const chatBox = document.getElementById('chat-box');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+
+function appendMessage(message, type) {
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `message my-2 px-3 py-2 rounded-xl max-w-[80%] break-words self-${type === 'user' ? 'end' : 'start'} ${
+    type === 'user' ? 'bg-black/20 dark:bg-white/20 text-black dark:text-white' : 'bg-white/20 dark:bg-black/20 text-black dark:text-white'
+  }`;
+  msgDiv.textContent = message;
+  chatBox.appendChild(msgDiv);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function sendMessage() {
+  const msg = userInput.value.trim();
+  if (!msg) return;
+  appendMessage(msg, 'user');
+  userInput.value = '';
+
+  try {
+    const response = await fetch('https://noobs-api.top/dipto/baby', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ msg })
+    });
+    const data = await response.json();
+    appendMessage(data.reply || "Sorry, no reply.", 'bot');
+  } catch (err) {
+    appendMessage("Error: Unable to connect to the API.", 'bot');
+    console.error(err);
+  }
+}
+
+sendBtn.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', e => {
+  if (e.key === 'Enter') sendMessage();
+});
+</script>
+
+</body>
+</html>
