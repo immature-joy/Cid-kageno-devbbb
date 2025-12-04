@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow bot | Cid Kageno</title>
+<title>Shadow bot</title>
 
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -15,12 +15,13 @@ tailwind.config = { darkMode: 'media', theme: { extend: {} } };
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
 <style>
-body { margin:0; font-family:sans-serif; }
+body { margin:0; font-family:sans-serif; background:inherit; color:inherit; }
 .glass {
   backdrop-filter: blur(15px) saturate(180%);
   background-color: rgba(255,255,255,0.3);
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 .dark .glass {
   background-color: rgba(0,0,0,0.3);
@@ -56,14 +57,14 @@ input:focus { outline:none; border-color:rgba(0,0,0,0.3); box-shadow:0 0 4px rgb
 <body class="flex flex-col min-h-screen">
 
 <!-- Header -->
-<header class="p-4 text-center text-2xl font-bold glass mx-4 mt-4">ShadowGPT Portal</header>
+<header class="p-4 text-center text-2xl font-bold glass mx-4 mt-4">ShadowGPT Chat</header>
 
 <!-- Chat Container -->
 <main class="flex-1 container mx-auto px-4 py-4 flex flex-col">
   <div id="chat-container" class="flex-1 mb-4 overflow-y-auto space-y-4 p-4 glass">
     <div class="flex justify-start">
       <div class="bg-gray-200/30 dark:bg-gray-700/30 rounded-xl p-4 max-w-xs md:max-w-md">
-        <p class="text-sm text-black dark:text-white">Greetings, shadow walker. What knowledge do you seek from the void?</p>
+        <p class="text-sm text-black dark:text-white">Welcome, shadow walker. Ask anything you desire.</p>
       </div>
     </div>
   </div>
@@ -81,7 +82,7 @@ input:focus { outline:none; border-color:rgba(0,0,0,0.3); box-shadow:0 0 4px rgb
 
 <!-- Footer -->
 <footer class="text-center p-4 text-sm opacity-60 glass mx-4 mb-4 rounded-xl">
-  © All rights reserved by Cid Kageno
+  © Cid Kageno
 </footer>
 
 <script>
@@ -126,7 +127,7 @@ function addMessage(sender, message, animateTyping=false){
   const bubble = document.createElement('div');
   bubble.className = 'rounded-xl p-4 max-w-xs md:max-w-md glass';
   const p = document.createElement('p'); 
-  p.className='text-sm ' + (sender==='user' ? 'text-black dark:text-white' : 'text-black dark:text-white');
+  p.className='text-sm text-black dark:text-white';
   bubble.appendChild(p); msgDiv.appendChild(bubble); chatContainer.appendChild(msgDiv);
   chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
   if(animateTyping) typeWriter(p, message);
@@ -150,7 +151,7 @@ async function sendMessage(){
   chatContainer.appendChild(thinkingDiv);
   chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
 
-  await new Promise(r=>setTimeout(r,500)); // thinking delay
+  await new Promise(r=>setTimeout(r,500)); // optional thinking delay
   const response = await queryAI(message);
   chatContainer.removeChild(thinkingDiv);
   addMessage('bot', response, true);
