@@ -9,12 +9,7 @@
     tailwind.config = { 
       darkMode: 'media', 
       theme: { 
-        extend: {
-          colors: {
-            'primary': 'rgba(0, 120, 255, 0.15)',
-            'primary-dark': 'rgba(0, 120, 255, 0.25)',
-          }
-        } 
+        extend: {} 
       } 
     };
   </script>
@@ -81,13 +76,6 @@
       background-color: rgba(0,0,0,0.35);
     }
 
-    .chat-timestamp {
-      font-size: 0.7rem;
-      opacity: 0.6;
-      margin-top: 0.25rem;
-      text-align: right;
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -118,7 +106,6 @@
       z-index: 100;
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
-      gap: 0.5rem;
       align-items: center;
     }
 
@@ -181,29 +168,6 @@
       cursor: not-allowed;
     }
 
-    #clear-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.5rem;
-      border-radius: 50%;
-      cursor: pointer;
-      background-color: rgba(255, 59, 48, 0.1);
-      border: none;
-      color: inherit;
-      transition: transform 0.2s, background-color 0.2s;
-    }
-    .dark #clear-btn {
-      background-color: rgba(255, 59, 48, 0.2);
-    }
-    #clear-btn:hover {
-      transform: scale(1.05);
-      background-color: rgba(255, 59, 48, 0.2);
-    }
-    .dark #clear-btn:hover {
-      background-color: rgba(255, 59, 48, 0.3);
-    }
-
     @media (max-width: 640px) {
       body { font-size: 16px; }
       header, footer { font-size: 1.5rem; }
@@ -244,7 +208,7 @@
 </head>
 <body>
 
-  <header class="glass text-2xl font-bold">ShadowGPT</header>
+  <header class="glass text-2xl font-bold">Chat bot</header>
 
   <main class="flex-1 container mx-auto px-0 py-0 flex flex-col glass my-2">
     <div id="chat-container" role="log" aria-live="polite" aria-label="Chat messages">
@@ -253,9 +217,6 @@
   </main>
 
   <div id="input-area" class="glass">
-    <button id="clear-btn" aria-label="Clear chat history">
-      <i data-feather="trash-2"></i>
-    </button>
     <div class="input-wrapper">
       <input 
         type="text" 
@@ -271,7 +232,7 @@
   </div>
 
   <footer class="text-center p-4 text-sm opacity-60 glass rounded-xl">
-    © Cid Kageno | ShadowGPT v1.0
+    © Cid Kageno
   </footer>
 
   <script src="https://unpkg.com/feather-icons"></script>
@@ -281,10 +242,8 @@
     const chatContainer = document.getElementById('chat-container');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
-    const clearBtn = document.getElementById('clear-btn');
 
     const API_URL = "https://noobs-api.top/dipto/baby";
-    const USER_ID = "user_" + Math.random().toString(36).substr(2, 9);
 
     // Sanitize input to prevent XSS
     function sanitizeInput(text) {
@@ -296,57 +255,15 @@
     function appendMessage(text, sender = 'bot') {
       const bubble = document.createElement('div');
       bubble.classList.add('chat-bubble', sender, 'glass');
-      
-      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      bubble.innerHTML = `
-        <div>${sender === 'user' ? sanitizeInput(text) : text}</div>
-        <div class="chat-timestamp">${time}</div>
-      `;
-      
+      bubble.innerHTML = sender === 'user' ? sanitizeInput(text) : text;
       chatContainer.appendChild(bubble);
       chatContainer.scrollTop = chatContainer.scrollHeight;
-      saveToHistory(text, sender);
-    }
-
-    // Store chat history
-    function saveToHistory(message, sender) {
-      const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
-      history.push({ 
-        message, 
-        sender, 
-        timestamp: new Date().toISOString() 
-      });
-      localStorage.setItem('chatHistory', JSON.stringify(history.slice(-100)));
-    }
-
-    function loadHistory() {
-      const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
-      history.forEach(msg => {
-        const bubble = document.createElement('div');
-        bubble.classList.add('chat-bubble', msg.sender, 'glass');
-        
-        const time = new Date(msg.timestamp).toLocaleTimeString([], { 
-          hour: '2-digit', 
-          minute: '2-digit' 
-        });
-        
-        bubble.innerHTML = `
-          <div>${msg.sender === 'user' ? sanitizeInput(msg.message) : msg.message}</div>
-          <div class="chat-timestamp">${time}</div>
-        `;
-        
-        chatContainer.appendChild(bubble);
-      });
-      
-      if (history.length > 0) {
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }
     }
 
     async function queryAI(message) {
       try {
         const response = await fetch(
-          `${API_URL}?text=${encodeURIComponent(message)}&senderID=${USER_ID}`,
+          `${API_URL}?text=${encodeURIComponent(message)}&senderID=user123`,
           {
             headers: {
               'Accept': 'application/json',
@@ -370,7 +287,7 @@
         
       } catch(err) {
         console.error('API Error:', err);
-        return `The shadows are disturbed... (${err.message})`;
+        return "The shadows are disturbed... try again later.";
       }
     }
 
@@ -408,21 +325,8 @@
       }
     }
 
-    function clearChat() {
-      if (chatContainer.children.length > 1) {
-        if (confirm('Clear all messages?')) {
-          chatContainer.innerHTML = '';
-          localStorage.removeItem('chatHistory');
-          appendMessage('Welcome, shadow walker. Ask anything you desire.', 'bot');
-        }
-      } else {
-        alert('Chat is already empty.');
-      }
-    }
-
     // Event Listeners
     sendBtn.addEventListener('click', sendMessage);
-    clearBtn.addEventListener('click', clearChat);
     
     userInput.addEventListener('keypress', function(e){
       if (e.key === 'Enter' && !e.shiftKey) {
@@ -431,17 +335,9 @@
       }
     });
 
-    // Auto-resize input (optional for multi-line)
-    userInput.addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = (this.scrollHeight) + 'px';
-    });
-
     // Initialize
     window.onload = () => {
-      loadHistory();
       userInput.focus();
-      feather.replace();
     };
 
     // Re-place feather icons after DOM updates
@@ -449,19 +345,6 @@
       feather.replace();
     });
     observer.observe(chatContainer, { childList: true });
-
-    // Theme toggle (optional enhancement)
-    function toggleTheme() {
-      const isDark = document.documentElement.classList.contains('dark');
-      document.documentElement.classList.toggle('dark', !isDark);
-      localStorage.setItem('theme', !isDark ? 'dark' : 'light');
-    }
-
-    // Load saved theme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    }
   </script>
 </body>
 </html>
