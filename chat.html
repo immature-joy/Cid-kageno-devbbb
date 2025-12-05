@@ -7,9 +7,16 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { 
-      darkMode: 'media', 
+      darkMode: 'class', 
       theme: { 
-        extend: {} 
+        extend: {
+          colors: {
+            'meta-bg': '#F0F2F5',
+            'meta-dark-bg': '#242526',
+            'meta-blue': '#0084FF',
+            'meta-gray': '#65676B',
+          }
+        } 
       } 
     };
   </script>
@@ -31,74 +38,177 @@
     body {
       display: flex;
       flex-direction: column;
-      background: inherit;
-      color: inherit;
+      background: #F0F2F5;
+      color: #050505;
+    }
+    
+    .dark body {
+      background: #242526;
+      color: #E4E6EB;
     }
 
-    /* Header - Like WhatsApp/Telegram */
+    /* Minimal header like Meta AI */
     header {
-      height: 56px;
-      min-height: 56px;
+      height: 60px;
+      min-height: 60px;
       width: 100%;
       display: flex;
       align-items: center;
+      justify-content: center;
       padding: 0 16px;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
       background: inherit;
-      z-index: 10;
+      position: relative;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
     }
     .dark header {
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* Main chat container - Full screen messages */
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ai-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* Main chat container - Full screen */
     #chat-container {
       flex: 1;
       overflow-y: auto;
-      padding: 8px 12px 80px;
+      padding: 20px 16px 100px;
       display: flex;
       flex-direction: column;
       -webkit-overflow-scrolling: touch;
       background: inherit;
     }
 
-    /* Chat bubbles - Like iMessage/WhatsApp */
-    .chat-bubble {
-      max-width: 85%;
-      word-wrap: break-word;
-      position: relative;
-      animation: fadeIn 0.3s ease-out;
-      margin: 2px 0;
-    }
-    
-    .chat-bubble.user {
-      align-self: flex-end;
-      background: #007AFF;
-      color: white;
-      border-radius: 18px 4px 18px 18px;
-      padding: 12px 16px;
-      margin-left: auto;
-    }
-    
-    .chat-bubble.bot {
-      align-self: flex-start;
-      background: rgba(120, 120, 128, 0.12);
-      color: inherit;
-      border-radius: 4px 18px 18px 18px;
-      padding: 12px 16px;
-      margin-right: auto;
-    }
-    .dark .chat-bubble.bot {
-      background: rgba(255, 255, 255, 0.08);
+    /* Welcome message with suggestions */
+    .welcome-section {
+      text-align: center;
+      margin-bottom: 32px;
     }
 
-    /* Input area - Fixed at bottom like mobile apps */
+    .welcome-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .welcome-subtitle {
+      font-size: 16px;
+      color: #65676B;
+      margin-bottom: 32px;
+    }
+    .dark .welcome-subtitle {
+      color: #B0B3B8;
+    }
+
+    /* Suggestions grid */
+    .suggestions-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 640px) {
+      .suggestions-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .suggestion-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+    .dark .suggestion-card {
+      background: #3A3B3C;
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .suggestion-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .suggestion-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .suggestion-desc {
+      font-size: 12px;
+      color: #65676B;
+    }
+    .dark .suggestion-desc {
+      color: #B0B3B8;
+    }
+
+    /* Chat messages */
+    .message-container {
+      max-width: 100%;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message-bubble {
+      max-width: 85%;
+      word-wrap: break-word;
+      padding: 12px 16px;
+      border-radius: 18px;
+      position: relative;
+      animation: fadeIn 0.3s ease-out;
+      line-height: 1.4;
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background: #0084FF;
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .ai-message {
+      align-self: flex-start;
+      background: white;
+      color: #050505;
+      border-bottom-left-radius: 4px;
+    }
+    .dark .ai-message {
+      background: #3A3B3C;
+      color: #E4E6EB;
+    }
+
+    /* Input area - Meta AI style */
     #input-area {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      padding: 12px 16px;
+      padding: 16px;
       background: inherit;
       border-top: 1px solid rgba(0,0,0,0.1);
       backdrop-filter: blur(10px);
@@ -107,36 +217,38 @@
     }
     .dark #input-area {
       border-top: 1px solid rgba(255,255,255,0.1);
-      background: rgba(0,0,0,0.8);
+      background: rgba(36, 37, 38, 0.95);
     }
 
     .input-wrapper {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
     #user-input {
       flex: 1;
-      padding: 12px 16px;
+      padding: 14px 20px;
       font-size: 16px;
-      border: 1px solid rgba(0,0,0,0.2);
-      border-radius: 20px;
-      background: rgba(120, 120, 128, 0.12);
-      color: inherit;
+      border: 2px solid rgba(0,0,0,0.1);
+      border-radius: 24px;
+      background: white;
+      color: #050505;
       outline: none;
-      min-height: 44px;
-      max-height: 100px;
+      min-height: 48px;
       resize: none;
       line-height: 1.4;
     }
     .dark #user-input {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255,255,255,0.2);
+      background: #3A3B3C;
+      color: #E4E6EB;
+      border-color: rgba(255,255,255,0.1);
     }
     #user-input:focus {
-      border-color: #007AFF;
+      border-color: #0084FF;
     }
     #user-input:disabled {
       opacity: 0.6;
@@ -144,63 +256,87 @@
     }
 
     #send-btn {
-      width: 44px;
-      height: 44px;
-      min-width: 44px;
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background: #007AFF;
+      background: #0084FF;
       color: white;
       border: none;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: all 0.2s;
       flex-shrink: 0;
     }
     #send-btn:hover:not(:disabled) {
       transform: scale(1.05);
+      background: #0073E6;
     }
     #send-btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
-      background: rgba(0, 122, 255, 0.5);
+    }
+
+    .ask-anything {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #0084FF;
+      font-weight: 500;
+      margin-top: 8px;
     }
 
     /* Typing indicator */
-    #typing-indicator {
-      align-self: flex-start;
-      background: rgba(120, 120, 128, 0.12);
-      color: gray;
-      padding: 8px 16px;
-      border-radius: 4px 18px 18px 18px;
-      margin: 2px 0;
-      font-size: 14px;
-      display: none;
-      animation: pulse 1.5s infinite;
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 16px;
+      background: white;
+      border-radius: 18px;
+      border-bottom-left-radius: 4px;
+      width: fit-content;
+      margin-bottom: 16px;
     }
-    .dark #typing-indicator {
-      background: rgba(255, 255, 255, 0.08);
+    .dark .typing-indicator {
+      background: #3A3B3C;
     }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #65676B;
+      animation: typingAnimation 1.4s infinite ease-in-out;
+    }
+    .dark .typing-dot {
+      background: #B0B3B8;
+    }
+
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
 
     /* Animations */
     @keyframes fadeIn {
       from { 
         opacity: 0; 
-        transform: translateY(10px) scale(0.95); 
+        transform: translateY(10px); 
       }
       to { 
         opacity: 1; 
-        transform: translateY(0) scale(1); 
+        transform: translateY(0); 
       }
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+    @keyframes typingAnimation {
+      0%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-6px); }
     }
 
-    /* Scrollbar for mobile */
+    /* Hide scrollbar */
     #chat-container::-webkit-scrollbar {
       width: 0;
       background: transparent;
@@ -209,78 +345,82 @@
     /* iOS safe areas */
     @supports (padding: max(0px)) {
       #input-area {
-        padding-bottom: max(12px, env(safe-area-inset-bottom));
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
         padding-left: max(16px, env(safe-area-inset-left));
         padding-right: max(16px, env(safe-area-inset-right));
       }
       #chat-container {
-        padding-left: max(12px, env(safe-area-inset-left));
-        padding-right: max(12px, env(safe-area-inset-right));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
       }
     }
 
-    /* Hide footer on mobile - we don't need it */
-    footer {
-      display: none;
+    /* Theme toggle */
+    .theme-toggle {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.05);
+      border-radius: 20px;
+      padding: 6px;
+      cursor: pointer;
     }
-
-    /* Responsive adjustments */
-    @media (min-width: 640px) {
-      body {
-        max-width: 640px;
-        margin: 0 auto;
-        border-left: 1px solid rgba(0,0,0,0.1);
-        border-right: 1px solid rgba(0,0,0,0.1);
-      }
-      .dark body {
-        border-left: 1px solid rgba(255,255,255,0.1);
-        border-right: 1px solid rgba(255,255,255,0.1);
-      }
-      footer {
-        display: block;
-        text-align: center;
-        padding: 12px;
-        font-size: 12px;
-        opacity: 0.6;
-        border-top: 1px solid rgba(0,0,0,0.1);
-      }
-      .dark footer {
-        border-top: 1px solid rgba(255,255,255,0.1);
-      }
-    }
-
-    /* Message selection (like long-press on mobile) */
-    .chat-bubble::selection {
-      background: rgba(0, 122, 255, 0.3);
-    }
-
-    /* Auto resize textarea */
-    #user-input {
-      overflow: hidden;
+    .dark .theme-toggle {
+      background: rgba(255,255,255,0.1);
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"></div>
-      <div>
-        <h1 class="font-semibold text-lg">ShadowGPT</h1>
-        <p class="text-xs opacity-60">Online</p>
-      </div>
+    <div class="header-content">
+      <div class="ai-icon">AI</div>
+      <h1 class="text-xl font-semibold">ShadowGPT</h1>
+    </div>
+    <div class="theme-toggle" id="theme-toggle">
+      <i data-feather="moon"></i>
     </div>
   </header>
 
   <div id="chat-container">
-    <div class="chat-bubble bot">Welcome, shadow walker. Ask anything you desire.</div>
+    <!-- Welcome section (only shown when no messages) -->
+    <div id="welcome-section" class="welcome-section">
+      <h1 class="welcome-title">ShadowGPT</h1>
+      <p class="welcome-subtitle">Your intelligent AI assistant</p>
+      
+      <div class="suggestions-grid">
+        <div class="suggestion-card" data-prompt="Help me write a creative story">
+          <div class="suggestion-title">Creative Writing</div>
+          <div class="suggestion-desc">Generate stories, poems, or scripts</div>
+        </div>
+        
+        <div class="suggestion-card" data-prompt="Explain quantum computing in simple terms">
+          <div class="suggestion-title">Explain Concepts</div>
+          <div class="suggestion-desc">Get simple explanations of complex topics</div>
+        </div>
+        
+        <div class="suggestion-card" data-prompt="Plan a 7-day trip to Japan">
+          <div class="suggestion-title">Travel Planning</div>
+          <div class="suggestion-desc">Get itinerary suggestions and tips</div>
+        </div>
+        
+        <div class="suggestion-card" data-prompt="Debug this code for me">
+          <div class="suggestion-title">Code Help</div>
+          <div class="suggestion-desc">Debug, explain, or write code</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Messages will be added here -->
+    <div id="messages-container"></div>
   </div>
 
   <div id="input-area">
     <div class="input-wrapper">
       <textarea 
         id="user-input" 
-        placeholder="Message..." 
+        placeholder="Ask anything..." 
         aria-label="Type your message"
         autocomplete="off"
         rows="1"
@@ -289,40 +429,62 @@
         <i data-feather="send"></i>
       </button>
     </div>
+    <div class="ask-anything">
+      <i data-feather="zap" width="16"></i>
+      <span>Ask anything</span>
+    </div>
   </div>
-
-  <footer>
-    © Cid Kageno
-  </footer>
 
   <script src="https://unpkg.com/feather-icons"></script>
   <script>
     feather.replace();
 
     const chatContainer = document.getElementById('chat-container');
+    const messagesContainer = document.getElementById('messages-container');
+    const welcomeSection = document.getElementById('welcome-section');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
+    const themeToggle = document.getElementById('theme-toggle');
+    const suggestionCards = document.querySelectorAll('.suggestion-card');
 
     const API_URL = "https://noobs-api.top/dipto/baby";
+
+    // Theme toggle
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      document.documentElement.classList.toggle('dark', !isDark);
+      localStorage.setItem('theme', !isDark ? 'dark' : 'light');
+      feather.replace();
+    });
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
 
     // Auto-resize textarea
     userInput.addEventListener('input', function() {
       this.style.height = 'auto';
-      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
     });
 
-    // Sanitize input
-    function sanitizeInput(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
+    // Add message to chat
+    function addMessage(text, sender = 'ai') {
+      // Hide welcome section after first message
+      if (welcomeSection.style.display !== 'none') {
+        welcomeSection.style.display = 'none';
+      }
 
-    function appendMessage(text, sender = 'bot') {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message-container';
+      
       const bubble = document.createElement('div');
-      bubble.classList.add('chat-bubble', sender);
-      bubble.innerHTML = sender === 'user' ? sanitizeInput(text) : text;
-      chatContainer.appendChild(bubble);
+      bubble.className = `message-bubble ${sender === 'user' ? 'user-message' : 'ai-message'}`;
+      bubble.textContent = text;
+      
+      messageDiv.appendChild(bubble);
+      messagesContainer.appendChild(messageDiv);
       
       // Smooth scroll to bottom
       setTimeout(() => {
@@ -333,36 +495,53 @@
       }, 50);
     }
 
+    // Show typing indicator
+    function showTyping() {
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message-container';
+      typingDiv.id = 'typing-indicator';
+      
+      typingDiv.innerHTML = `
+        <div class="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      `;
+      
+      messagesContainer.appendChild(typingDiv);
+      chatContainer.scrollTo({
+        top: chatContainer.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+
+    // Remove typing indicator
+    function hideTyping() {
+      const typing = document.getElementById('typing-indicator');
+      if (typing) typing.remove();
+    }
+
+    // API call
     async function queryAI(message) {
       try {
         const response = await fetch(
           `${API_URL}?text=${encodeURIComponent(message)}&senderID=user123`,
-          {
-            headers: {
-              'Accept': 'application/json',
-            }
-          }
+          { headers: { 'Accept': 'application/json' } }
         );
         
-        if (!response.ok) {
-          throw new Error(`API error: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`API error: ${response.status}`);
         
         const data = await response.json();
-        
-        if (data.reply) return data.reply;
-        if (data.data) return data.data;
-        if (data.message) return data.message;
-        if (typeof data === 'string') return data;
-        
-        return "The shadows are silent...";
+        return data.reply || data.data || data.message || data || "I'm here to help!";
         
       } catch(err) {
         console.error('API Error:', err);
-        return "The shadows are disturbed... try again later.";
+        return "I apologize, but I'm having trouble connecting right now. Please try again.";
       }
     }
 
+    // Send message
     async function sendMessage() {
       const message = userInput.value.trim();
       if (!message) return;
@@ -371,25 +550,19 @@
       userInput.disabled = true;
       sendBtn.disabled = true;
       
-      appendMessage(message, 'user');
+      addMessage(message, 'user');
       userInput.value = '';
       userInput.style.height = 'auto';
 
-      // Typing indicator
-      const typing = document.createElement('div');
-      typing.id = 'typing-indicator';
-      typing.textContent = "ShadowGPT is typing...";
-      typing.style.display = "block";
-      chatContainer.appendChild(typing);
-      chatContainer.scrollTop = chatContainer.scrollHeight;
+      showTyping();
 
       try {
         const botReply = await queryAI(message);
-        typing.remove();
-        appendMessage(botReply, 'bot');
+        hideTyping();
+        addMessage(botReply, 'ai');
       } catch (error) {
-        typing.remove();
-        appendMessage("Failed to get response from the shadows.", 'bot');
+        hideTyping();
+        addMessage("Sorry, I encountered an error. Please try again.", 'ai');
       } finally {
         // Re-enable input
         userInput.disabled = false;
@@ -408,48 +581,37 @@
       }
     });
 
-    // Send on mobile return key
-    userInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
+    // Suggestion cards
+    suggestionCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const prompt = card.getAttribute('data-prompt');
+        userInput.value = prompt;
+        userInput.focus();
+        userInput.style.height = 'auto';
+        userInput.style.height = Math.min(userInput.scrollHeight, 120) + 'px';
+      });
     });
 
-    // Initialize - focus on input
+    // Initialize
     window.onload = () => {
       userInput.focus();
+      feather.replace();
       
-      // Add some initial space at bottom
-      setTimeout(() => {
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }, 100);
+      // Prevent accidental zoom
+      document.addEventListener('touchstart', function(e) {
+        if (e.touches.length > 1) e.preventDefault();
+      }, { passive: false });
+
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) e.preventDefault();
+        lastTouchEnd = now;
+      }, false);
     };
 
-    // Re-place feather icons after DOM updates
-    const observer = new MutationObserver(() => {
-      feather.replace();
-    });
-    observer.observe(chatContainer, { childList: true });
-
-    // Prevent accidental zoom on mobile
-    document.addEventListener('touchstart', function(e) {
-      if (e.touches.length > 1) {
-        e.preventDefault();
-      }
-    }, { passive: false });
-
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', function(e) {
-      const now = (new Date()).getTime();
-      if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
-      }
-      lastTouchEnd = now;
-    }, false);
-
-    // Handle mobile keyboard appearance
-    window.addEventListener('resize', function() {
+    // Handle mobile keyboard
+    window.addEventListener('resize', () => {
       setTimeout(() => {
         chatContainer.scrollTop = chatContainer.scrollHeight;
       }, 100);
