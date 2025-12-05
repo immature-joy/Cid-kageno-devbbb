@@ -19,19 +19,18 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      touch-action: none; /* Prevent all touch gestures */
     }
 
-    body, html {
+    html {
       height: 100%;
       width: 100%;
       overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      position: fixed; /* Prevent scrolling */
+      position: fixed;
     }
 
     body {
-      display: flex;
-      flex-direction: column;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       background: inherit;
       color: inherit;
       position: fixed;
@@ -39,9 +38,22 @@
       left: 0;
       right: 0;
       bottom: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
     }
 
-    /* Header - Like WhatsApp/Telegram */
+    /* Lock body in place */
+    body.locked {
+      position: fixed;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* Header - Fixed */
     header {
       height: 56px;
       min-height: 56px;
@@ -51,25 +63,26 @@
       padding: 0 16px;
       border-bottom: 1px solid rgba(0,0,0,0.1);
       background: inherit;
-      z-index: 10;
+      z-index: 100;
       flex-shrink: 0;
+      position: relative;
     }
     .dark header {
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* Main chat container - Fixed height, no scroll on body */
+    /* Chat container - Absolute positioned, no flex for stability */
     #chat-container {
-      flex: 1;
+      position: absolute;
+      top: 56px; /* Header height */
+      bottom: calc(44px + 24px + env(safe-area-inset-bottom, 0px)); /* Input height + padding + safe area */
+      left: 0;
+      right: 0;
       overflow-y: auto;
       overflow-x: hidden;
       padding: 8px 12px;
-      display: flex;
-      flex-direction: column;
-      -webkit-overflow-scrolling: touch;
       background: inherit;
-      position: relative;
-      min-height: 0; /* Important for flex child */
+      -webkit-overflow-scrolling: touch;
     }
 
     /* Chat bubbles */
@@ -78,8 +91,9 @@
       word-wrap: break-word;
       position: relative;
       animation: fadeIn 0.3s ease-out;
-      margin: 2px 0;
-      flex-shrink: 0;
+      margin: 4px 0;
+      padding: 12px 16px;
+      line-height: 1.4;
     }
     
     .chat-bubble.user {
@@ -87,7 +101,6 @@
       background: #007AFF;
       color: white;
       border-radius: 18px 4px 18px 18px;
-      padding: 12px 16px;
       margin-left: auto;
     }
     
@@ -96,7 +109,6 @@
       background: rgba(120, 120, 128, 0.12);
       color: inherit;
       border-radius: 4px 18px 18px 18px;
-      padding: 12px 16px;
       margin-right: auto;
     }
     .dark .chat-bubble.bot {
@@ -105,16 +117,18 @@
 
     /* Input area - Fixed at bottom */
     #input-area {
-      width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
       padding: 12px 16px;
       background: inherit;
       border-top: 1px solid rgba(0,0,0,0.1);
       z-index: 100;
-      flex-shrink: 0;
-      position: relative;
     }
     .dark #input-area {
       border-top: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.98); /* Slightly opaque to cover content */
     }
 
     .input-wrapper {
@@ -134,9 +148,10 @@
       color: inherit;
       outline: none;
       min-height: 44px;
-      max-height: 100px;
+      max-height: 44px; /* Fixed height */
       resize: none;
       line-height: 1.4;
+      overflow-y: auto;
     }
     .dark #user-input {
       background: rgba(255, 255, 255, 0.08);
@@ -162,11 +177,7 @@
       color: white;
       border: none;
       cursor: pointer;
-      transition: transform 0.2s;
       flex-shrink: 0;
-    }
-    #send-btn:hover:not(:disabled) {
-      transform: scale(1.05);
     }
     #send-btn:disabled {
       opacity: 0.5;
@@ -176,15 +187,15 @@
 
     /* Typing indicator */
     .typing-indicator {
-      align-self: flex-start;
       background: rgba(120, 120, 128, 0.12);
       color: gray;
       padding: 8px 16px;
       border-radius: 4px 18px 18px 18px;
-      margin: 2px 0;
+      margin: 4px 0;
       font-size: 14px;
       animation: pulse 1.5s infinite;
       max-width: 85%;
+      align-self: flex-start;
     }
     .dark .typing-indicator {
       background: rgba(255, 255, 255, 0.08);
@@ -207,19 +218,10 @@
       50% { opacity: 0.5; }
     }
 
-    /* Custom scrollbar for chat container */
+    /* Custom scrollbar */
     #chat-container::-webkit-scrollbar {
-      width: 4px;
-    }
-    #chat-container::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    #chat-container::-webkit-scrollbar-thumb {
-      background: rgba(0,0,0,0.2);
-      border-radius: 2px;
-    }
-    .dark #chat-container::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.2);
+      width: 0;
+      display: none;
     }
 
     /* iOS safe areas */
@@ -230,12 +232,10 @@
         padding-right: max(16px, env(safe-area-inset-right));
       }
       #chat-container {
+        top: calc(56px + env(safe-area-inset-top, 0px));
+        bottom: calc(44px + 24px + env(safe-area-inset-bottom, 0px));
         padding-left: max(12px, env(safe-area-inset-left));
         padding-right: max(12px, env(safe-area-inset-right));
-        padding-bottom: max(8px, env(safe-area-inset-bottom));
-      }
-      body {
-        padding-top: env(safe-area-inset-top);
       }
     }
 
@@ -244,11 +244,13 @@
       display: none;
     }
 
-    /* Responsive adjustments */
+    /* Responsive for desktop */
     @media (min-width: 640px) {
       body {
         max-width: 640px;
         margin: 0 auto;
+        left: 50%;
+        transform: translateX(-50%);
         border-left: 1px solid rgba(0,0,0,0.1);
         border-right: 1px solid rgba(0,0,0,0.1);
       }
@@ -258,31 +260,26 @@
       }
       footer {
         display: block;
+        position: fixed;
+        bottom: calc(44px + 24px + env(safe-area-inset-bottom, 0px));
+        left: 0;
+        right: 0;
         text-align: center;
-        padding: 12px;
+        padding: 8px;
         font-size: 12px;
         opacity: 0.6;
-        border-top: 1px solid rgba(0,0,0,0.1);
-        flex-shrink: 0;
-      }
-      .dark footer {
-        border-top: 1px solid rgba(255,255,255,0.1);
+        z-index: 1;
       }
     }
 
-    /* Auto resize textarea */
-    #user-input {
-      overflow: hidden;
-    }
-
-    /* Bottom spacer to prevent messages from being hidden behind input */
-    .bottom-spacer {
+    /* Bottom padding for last message */
+    .message-spacer {
       height: 8px;
-      flex-shrink: 0;
+      width: 100%;
     }
   </style>
 </head>
-<body>
+<body class="locked">
 
   <header>
     <div class="flex items-center gap-3">
@@ -296,7 +293,7 @@
 
   <div id="chat-container">
     <div class="chat-bubble bot">Welcome, shadow walker. Ask anything you desire.</div>
-    <div class="bottom-spacer"></div>
+    <div class="message-spacer"></div>
   </div>
 
   <div id="input-area">
@@ -325,32 +322,69 @@
     const chatContainer = document.getElementById('chat-container');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
-    const bottomSpacer = document.querySelector('.bottom-spacer');
+    const messageSpacer = document.querySelector('.message-spacer');
 
     const API_URL = "https://noobs-api.top/dipto/baby";
     let isProcessing = false;
     let typingIndicator = null;
 
-    // Auto-resize textarea
-    userInput.addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-      
-      // Adjust chat container padding when input expands
-      adjustChatContainer();
-    });
+    // Lock the body on load
+    document.body.classList.add('locked');
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
 
-    function adjustChatContainer() {
-      // Ensure chat container scrolls to show new messages
-      requestAnimationFrame(() => {
-        scrollToBottom();
-      });
+    // Calculate initial chat container height
+    function updateChatContainerHeight() {
+      const header = document.querySelector('header');
+      const inputArea = document.getElementById('input-area');
+      const headerHeight = header.offsetHeight;
+      const inputHeight = inputArea.offsetHeight;
+      
+      chatContainer.style.top = headerHeight + 'px';
+      chatContainer.style.bottom = inputHeight + 'px';
+      
+      // Force scroll to bottom
+      setTimeout(() => {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }, 50);
     }
 
-    function scrollToBottom() {
-      if (chatContainer.scrollHeight > chatContainer.clientHeight) {
-        chatContainer.scrollTop = chatContainer.scrollHeight;
+    // Call on load and resize
+    updateChatContainerHeight();
+    window.addEventListener('resize', updateChatContainerHeight);
+
+    // Prevent all scrolling on body
+    document.addEventListener('touchmove', function(e) {
+      // Only allow scrolling in chat container
+      if (e.target !== chatContainer && !chatContainer.contains(e.target)) {
+        e.preventDefault();
       }
+    }, { passive: false });
+
+    // Prevent zoom
+    document.addEventListener('gesturestart', function(e) {
+      e.preventDefault();
+    });
+    
+    document.addEventListener('touchstart', function(e) {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    // Auto-resize textarea (but keep within bounds)
+    userInput.addEventListener('input', function() {
+      this.style.height = 'auto';
+      const newHeight = Math.min(this.scrollHeight, 88); // Max 4 lines
+      this.style.height = newHeight + 'px';
+      
+      // Update chat container position
+      updateChatContainerHeight();
+      scrollToBottom();
+    });
+
+    function scrollToBottom() {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
     function sanitizeInput(text) {
@@ -364,14 +398,13 @@
       bubble.classList.add('chat-bubble', sender);
       bubble.innerHTML = sender === 'user' ? sanitizeInput(text) : text;
       
-      // Insert before the bottom spacer
-      chatContainer.insertBefore(bubble, bottomSpacer);
+      chatContainer.insertBefore(bubble, messageSpacer);
       
-      // Keep focus on input and keyboard open
+      // Keep input focused
       userInput.focus();
       
-      // Scroll to bottom with a small delay
-      setTimeout(scrollToBottom, 10);
+      // Scroll to bottom immediately
+      scrollToBottom();
       
       return bubble;
     }
@@ -384,9 +417,8 @@
       typingIndicator = document.createElement('div');
       typingIndicator.classList.add('typing-indicator');
       typingIndicator.textContent = "ShadowGPT is typing...";
-      chatContainer.insertBefore(typingIndicator, bottomSpacer);
-      
-      setTimeout(scrollToBottom, 10);
+      chatContainer.insertBefore(typingIndicator, messageSpacer);
+      scrollToBottom();
     }
 
     function hideTypingIndicator() {
@@ -433,21 +465,17 @@
       if (!message) return;
       
       isProcessing = true;
-      
-      // Disable input but keep focus
       userInput.disabled = true;
       sendBtn.disabled = true;
       
       appendMessage(message, 'user');
       userInput.value = '';
-      userInput.style.height = 'auto';
+      userInput.style.height = '44px'; // Reset to single line
       
-      // Show typing indicator
       showTypingIndicator();
       
-      // IMPORTANT: Keep keyboard open by maintaining focus
-      userInput.disabled = false;
-      userInput.focus();
+      // Update layout
+      updateChatContainerHeight();
       
       try {
         const botReply = await queryAI(message);
@@ -457,113 +485,92 @@
         hideTypingIndicator();
         appendMessage("Failed to get response from the shadows.", 'bot');
       } finally {
-        // Re-enable everything
         isProcessing = false;
         userInput.disabled = false;
         sendBtn.disabled = false;
         
-        // CRITICAL: Keep focus on input to prevent keyboard from closing
+        // Keep keyboard open and focus on input
         setTimeout(() => {
           userInput.focus();
+          updateChatContainerHeight();
         }, 50);
       }
     }
 
     // Event Listeners
-    sendBtn.addEventListener('click', function(e) {
+    sendBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      e.stopPropagation();
       sendMessage();
     });
     
-    userInput.addEventListener('keydown', function(e) {
+    userInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        e.stopPropagation();
         sendMessage();
       }
     });
 
-    // Initialize - focus on input immediately
+    // Initialize
     window.onload = () => {
       userInput.focus();
-      setTimeout(scrollToBottom, 100);
+      updateChatContainerHeight();
+      scrollToBottom();
       
-      // Prevent default behavior that might close keyboard
-      document.addEventListener('touchstart', function(e) {
-        if (e.target === userInput || e.target === sendBtn) {
-          e.preventDefault();
-        }
-      }, { passive: false });
+      // Lock the viewport
+      document.body.style.height = window.innerHeight + 'px';
       
-      document.addEventListener('click', function(e) {
-        if (e.target !== userInput && e.target !== sendBtn) {
-          // Even when clicking elsewhere, keep focus on input
+      // Handle virtual keyboard
+      let originalHeight = window.innerHeight;
+      window.addEventListener('resize', () => {
+        const newHeight = window.innerHeight;
+        if (newHeight < originalHeight) {
+          // Keyboard is open
           setTimeout(() => {
-            userInput.focus();
+            updateChatContainerHeight();
+            scrollToBottom();
           }, 100);
+        } else {
+          // Keyboard is closed
+          updateChatContainerHeight();
         }
+        originalHeight = newHeight;
       });
     };
 
-    // Re-place feather icons after DOM updates
+    // Update feather icons
     const observer = new MutationObserver(() => {
       feather.replace();
-      // Adjust scroll after new content
       setTimeout(scrollToBottom, 10);
     });
     observer.observe(chatContainer, { childList: true });
 
-    // Prevent zoom on mobile
+    // Prevent any page movement
     document.addEventListener('touchstart', function(e) {
-      if (e.touches.length > 1) {
+      // Only allow interactions with input and button
+      if (e.target !== userInput && e.target !== sendBtn && 
+          e.target.tagName !== 'I' && !e.target.closest('#send-btn')) {
         e.preventDefault();
       }
     }, { passive: false });
 
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', function(e) {
-      const now = (new Date()).getTime();
-      if (now - lastTouchEnd <= 300) {
+    // Force focus on input when anywhere is clicked (except send button)
+    document.addEventListener('click', (e) => {
+      if (e.target !== sendBtn && e.target.closest('#send-btn') === null) {
+        setTimeout(() => {
+          userInput.focus();
+        }, 100);
+      }
+    });
+
+    // Double-tap prevention
+    let lastTap = 0;
+    document.addEventListener('touchend', (e) => {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 300 && tapLength > 0) {
         e.preventDefault();
       }
-      lastTouchEnd = now;
-    }, false);
-
-    // Handle window resize (keyboard appearing/disappearing)
-    let resizeTimer;
-    window.addEventListener('resize', function() {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        scrollToBottom();
-        userInput.focus();
-      }, 100);
-    });
-
-    // Prevent body scroll - only allow chat container scroll
-    document.addEventListener('touchmove', function(e) {
-      if (e.target === chatContainer || chatContainer.contains(e.target)) {
-        return;
-      }
-      e.preventDefault();
-    }, { passive: false });
-
-    // Focus input when tapping on chat area
-    chatContainer.addEventListener('click', function() {
-      setTimeout(() => {
-        userInput.focus();
-      }, 50);
-    });
-
-    // Keep input focused even when page loses/gains focus
-    window.addEventListener('blur', function() {
-      // Don't blur the input
-    });
-
-    window.addEventListener('focus', function() {
-      setTimeout(() => {
-        userInput.focus();
-      }, 100);
+      lastTap = currentTime;
     });
   </script>
 </body>
