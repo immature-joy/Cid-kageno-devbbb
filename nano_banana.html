@@ -1,53 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nano Banana AI Image Generator</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-    input, button { padding: 10px; font-size: 16px; }
-    .images img { width: 200px; margin: 10px; border-radius: 8px; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nano Banana AI Image Generator</title>
+<style>
+  :root {
+    --bg-light: #f0f0f0;
+    --bg-dark: #121212;
+    --text-light: #000;
+    --text-dark: #fff;
+    --primary: #ffcb05;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  body.dark {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+  }
+
+  header {
+    padding: 20px;
+    text-align: center;
+    background-color: var(--primary);
+    color: #000;
+  }
+
+  .container {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+
+  input, button {
+    padding: 10px;
+    font-size: 16px;
+    margin: 5px 0;
+  }
+
+  button {
+    cursor: pointer;
+    background-color: var(--primary);
+    border: none;
+    border-radius: 5px;
+    color: #000;
+    font-weight: bold;
+  }
+
+  .images {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .images img {
+    width: 200px;
+    border-radius: 10px;
+    transition: transform 0.3s;
+  }
+
+  .images img:hover {
+    transform: scale(1.05);
+  }
+
+  .loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--primary);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: 20px auto;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: var(--primary);
+  }
+</style>
 </head>
 <body>
+<header>
   <h1>Nano Banana AI Image Generator</h1>
+</header>
+
+<button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+
+<div class="container">
   <input type="text" id="prompt" placeholder="Enter prompt..." />
-  <input type="number" id="quantity" placeholder="Quantity" min="1" max="10" />
+  <input type="number" id="quantity" placeholder="Quantity (1-10)" min="1" max="10" />
   <button onclick="generateImages()">Generate</button>
 
-  <div class="images" id="images"></div>
+  <div id="images" class="images"></div>
+</div>
 
-  <script>
-    async function generateImages() {
-      const prompt = document.getElementById("prompt").value.trim();
-      const quantity = parseInt(document.getElementById("quantity").value) || 4;
-      if (!prompt) return alert("Please enter a prompt.");
+<script>
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+}
 
-      document.getElementById("images").innerHTML = "⏳ Generating images...";
+async function generateImages() {
+  const prompt = document.getElementById("prompt").value.trim();
+  const quantity = parseInt(document.getElementById("quantity").value) || 4;
 
-      try {
-        const res = await fetch("/generate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt, quantity })
-        });
+  if (!prompt) return alert("Please enter a prompt.");
 
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
+  const imagesDiv = document.getElementById("images");
+  imagesDiv.innerHTML = '<div class="loader"></div>';
 
-        const imagesDiv = document.getElementById("images");
-        imagesDiv.innerHTML = "";
-        data.images.forEach(url => {
-          const img = document.createElement("img");
-          img.src = url;
-          imagesDiv.appendChild(img);
-        });
-      } catch (err) {
-        alert("Error: " + err.message);
-        document.getElementById("images").innerHTML = "";
-      }
-    }
-  </script>
+  try {
+    const res = await fetch("/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, quantity })
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    imagesDiv.innerHTML = "";
+    data.images.forEach(url => {
+      const img = document.createElement("img");
+      img.src = url;
+      imagesDiv.appendChild(img);
+    });
+  } catch (err) {
+    alert("Error: " + err.message);
+    imagesDiv.innerHTML = "";
+  }
+}
+</script>
 </body>
 </html>
