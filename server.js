@@ -1,52 +1,87 @@
-require('dotenv').config();
-const express = require('express');
-const fetch = require('node-fetch');
-const multer = require('multer');
-const upload = multer({ dest: "uploads/" });
-const fs = require("fs");
+const express = require("express");
+const axios = require("axios");
 const cors = require("cors");
+const multer = require("multer");
 
+const upload = multer({ storage: multer.memoryStorage() });
 const app = express();
+
 app.use(cors());
 app.use(express.json());
-app.use(express.static("."));
 
-const API = "https://www.ai4chat.co/api/image/generate";
-const KEY = process.env.AI4CHAT_KEY;
+// --------------------------------------------------------
+// CONFIG
+// --------------------------------------------------------
+const AI4CHAT_API = "https://www.ai4chat.co/api/image/generate";
+const API_KEY = "YOUR_AI4CHAT_API_KEY"; // keep this secret!
 
-// TEXT → IMAGE
+// --------------------------------------------------------
+// GENERATE IMAGE (TEXT → IMAGE)
+// --------------------------------------------------------
 app.post("/api/generate", async (req, res) => {
-  const r = await fetch(API, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${KEY}`
-    },
-    body: JSON.stringify({
-      prompt: req.body.prompt,
-      width: 512,
-      height: 512
-    })
-  });
+  try {
+    const { prompt, width, height, aspect_ratio } = req.body;
 
-  res.send(await r.json());
+    if (!prompt) {
+      return res.status(400).json({ error: "Missing prompt" });
+    }
+
+    const response = await axios.get(AI4CHAT_API, {
+      headers: {
+        Authorization: `Bearer ${API_KEY}`
+      },
+      params: {
+        prompt,
+        width: width || 768,
+        height: height || 768,
+        aspect_ratio: aspect_ratio || "1:1"
+      }
+    });
+
+    return res.json(response.data);
+  } catch (err) {
+    console.error("GENERATE ERROR:", err.response?.data || err.message);
+    return res.status(500).json({ error: "Failed to generate image" });
+  }
 });
 
-// IMAGE → IMAGE (edit)
+// --------------------------------------------------------
+// EDIT IMAGE (IMAGE → IMAGE)
+// --------------------------------------------------------
 app.post("/api/edit", upload.single("image"), async (req, res) => {
-  const FormData = require("form-data");
-  const f = new FormData();
-  f.append("image", fs.createReadStream(req.file.path));
-  f.append("prompt", req.body.prompt);
+  try {
+    const prompt = req.body.prompt || "";
+    const file = req.file;
 
-  const r = await fetch(API, {
-    method: "POST",
-    headers: { "Authorization": `Bearer ${KEY}` },
-    body: f
-  });
+    if (!file) {
+      return res.status(400).json({ error: "Missing image file" });
+    }
 
-  fs.unlinkSync(req.file.path);
-  res.send(await r.json());
+    const form = new FormData();
+    form.append("prompt", prompt);
+    form.append("image", file.buffer, {
+      filename: file.originalname,
+      contentType: file.mimetype
+    });
+
+    const response = await axios.post(AI4CHAT_API, form, {
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+        ...form.getHeaders()
+      }
+    });
+
+    return res.json(response.data);
+  } catch (err) {
+    console.error("EDIT ERROR:", err.response?.data || err.message);
+    return res.status(500).json({ error: "Failed to edit image" });
+  }
 });
 
-app.listen(3000, () => console.log("Nano Banana running on http://localhost:3000"));
+// --------------------------------------------------------
+// SERVER START
+// --------------------------------------------------------
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Nano Banana backend running at http://localhost:${PORT}`);
+});
