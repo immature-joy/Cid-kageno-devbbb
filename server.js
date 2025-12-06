@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("."));
 
-const API = "https://www.ai4chat.co/api/image/generate";
+const API = "https://www.ai4chat.co/api/image/generate'";
 const KEY = process.env.AI4CHAT_KEY;
 
 // TEXT → IMAGE
