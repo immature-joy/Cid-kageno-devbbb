@@ -24,6 +24,7 @@
     <nav class="liquid-nav py-3 px-6 rounded-2xl shadow-xl backdrop-blur-xl flex gap-6 text-sm font-medium">
       <a href="#home" class="hover:opacity-80">Home</a>
       <a href="#projects" class="hover:opacity-80">Projects</a>
+      <a href="#tools" class="hover:opacity-80">Tools</a>
       <a href="#contact" class="hover:opacity-80">Contact</a>
     </nav>
   </header>
@@ -48,6 +49,7 @@
 
       <div class="flex justify-center gap-4 mt-6 flex-wrap">
         <a href="#projects" class="liquid-btn primary-btn">Explore Work</a>
+        <a href="#tools" class="liquid-btn">My Tools</a>
         <a href="https://github.com/cid-kageno-dev" target="_blank" class="liquid-btn">GitHub</a>
         <a href="https://wa.me/+8801731371266" target="_blank" class="liquid-btn">WhatsApp</a>
       </div>
@@ -88,6 +90,61 @@
     </div>
   </section>
 
+  <!-- TOOLS SECTION -->
+  <section id="tools" class="container mx-auto px-6 pb-32">
+    <h2 class="text-3xl font-bold text-center mb-12">Tools</h2>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Nano Banana AI Tool Card -->
+      <div class="liquid-card p-6 hover:transform hover:scale-105 transition-transform duration-300">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold">Nano Banana AI</h3>
+        </div>
+        <p class="opacity-80 mb-4 text-sm">
+          AI-powered image generator using ai4chat.co API. Create stunning images from text prompts with multiple aspect ratios.
+        </p>
+        <div class="flex gap-2 mt-4">
+          <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">AI</span>
+          <span class="px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">Image Gen</span>
+          <span class="px-2 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Free</span>
+        </div>
+        <div class="mt-6">
+          <a href="nano_banana.html" target="_blank" class="liquid-btn small-btn w-full text-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            Open Tool
+          </a>
+        </div>
+      </div>
+
+      <!-- Placeholder for More Tools -->
+      <div class="liquid-card p-6 opacity-70 border-2 border-dashed border-gray-300 dark:border-gray-700 flex flex-col items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        <h3 class="text-lg font-medium mb-2">More Tools Coming Soon</h3>
+        <p class="text-xs text-center">Working on new utilities and AI tools</p>
+      </div>
+
+      <!-- Another Placeholder -->
+      <div class="liquid-card p-6 opacity-70 border-2 border-dashed border-gray-300 dark:border-gray-700 flex flex-col items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+        <h3 class="text-lg font-medium mb-2">AI Tools in Development</h3>
+        <p class="text-xs text-center">Stay tuned for updates</p>
+      </div>
+
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section id="contact" class="container mx-auto px-6 pb-32 text-center">
     <div class="liquid-card p-10 max-w-2xl mx-auto fade-in">
@@ -96,7 +153,10 @@
         Reach out for collaborations, questions, or project ideas.
       </p>
 
-      <a href="mailto: cidkageno105@gmail.com" class="liquid-btn primary-btn">Email Me</a>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="mailto:cidkageno105@gmail.com" class="liquid-btn primary-btn">Email Me</a>
+        <a href="#tools" class="liquid-btn">Try My Tools</a>
+      </div>
     </div>
   </section>
 
@@ -105,6 +165,9 @@
     <div class="glass-footer px-6 py-3 rounded-2xl text-center text-sm shadow-lg">
       <p class="opacity-70">
         © <span id="year"></span> Cid Kageno — All Rights Reserved.
+      </p>
+      <p class="opacity-50 text-xs mt-1">
+        Built with AI tools and creative coding
       </p>
     </div>
   </footer>
@@ -151,6 +214,23 @@
 
     // Set current year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth scrolling for navigation
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId.startsWith('#')) {
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      });
+    });
   </script>
 
 </body>
