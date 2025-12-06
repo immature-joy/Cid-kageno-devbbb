@@ -1,99 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Nano Banana | AI Image Tool</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  body { font-family: Arial; margin: 20px; background: #f7f7f7; }
-  .box { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 0 10px #0001; }
-  .btn { padding: 10px 15px; border: none; background: #ffc93c; color: #000; border-radius: 8px; cursor: pointer; font-weight: bold; }
-  .btn:hover { background: #ffb800; }
-  textarea, input { width: 100%; padding: 10px; margin: 8px 0; }
-  canvas { width: 100%; border: 1px solid #ccc; margin-top: 10px; border-radius: 8px; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nano Banana AI Image Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+    input, button { padding: 10px; font-size: 16px; }
+    .images img { width: 200px; margin: 10px; border-radius: 8px; }
+  </style>
 </head>
 <body>
+  <h1>Nano Banana AI Image Generator</h1>
+  <input type="text" id="prompt" placeholder="Enter prompt..." />
+  <input type="number" id="quantity" placeholder="Quantity" min="1" max="10" />
+  <button onclick="generateImages()">Generate</button>
 
-<h1>🍌 Nano Banana – AI Image Generator & Editor</h1>
+  <div class="images" id="images"></div>
 
-<div class="box">
-  <h2>Generate Image</h2>
-  <textarea id="genPrompt" placeholder="Describe your image..."></textarea>
-  <button class="btn" onclick="generate()">Generate</button>
-  <p id="genStatus"></p>
-</div>
+  <script>
+    async function generateImages() {
+      const prompt = document.getElementById("prompt").value.trim();
+      const quantity = parseInt(document.getElementById("quantity").value) || 4;
+      if (!prompt) return alert("Please enter a prompt.");
 
-<div class="box">
-  <h2>Edit Image</h2>
-  <input type="file" id="editFile" accept="image/*">
-  <textarea id="editPrompt" placeholder="Describe edit..."></textarea>
-  <button class="btn" onclick="editImage()">Edit Image</button>
-  <p id="editStatus"></p>
-</div>
+      document.getElementById("images").innerHTML = "⏳ Generating images...";
 
-<div class="box">
-  <h2>Preview</h2>
-  <canvas id="canvas" width="512" height="512"></canvas>
-  <button class="btn" onclick="download()">Download</button>
-</div>
+      try {
+        const res = await fetch("/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt, quantity })
+        });
 
-<script>
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
 
-function showImage(url) {
-  const img = new Image();
-  img.crossOrigin = "anonymous";
-  img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  img.src = url;
-}
-
-async function generate() {
-  const prompt = document.getElementById('genPrompt').value;
-  document.getElementById('genStatus').innerText = "Generating...";
-
-  const r = await fetch('/api/generate', {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt })
-  });
-
-  const j = await r.json();
-  const url = j.imageUrl || j.data?.[0]?.url || ("data:image/png;base64," + j.base64);
-  if (!url) return alert("Error: no image returned");
-
-  showImage(url);
-  document.getElementById('genStatus').innerText = "Done!";
-}
-
-async function editImage() {
-  const file = document.getElementById('editFile').files[0];
-  if (!file) return alert("Upload an image first.");
-  const prompt = document.getElementById('editPrompt').value;
-  document.getElementById('editStatus').innerText = "Editing...";
-
-  const fd = new FormData();
-  fd.append("image", file);
-  fd.append("prompt", prompt);
-
-  const r = await fetch('/api/edit', { method: "POST", body: fd });
-  const j = await r.json();
-  const url = j.imageUrl || j.data?.[0]?.url || ("data:image/png;base64," + j.base64);
-
-  if (!url) return alert("Error: no edited image returned");
-
-  showImage(url);
-  document.getElementById('editStatus').innerText = "Done!";
-}
-
-function download() {
-  const link = document.createElement('a');
-  link.download = "nano-banana.png";
-  link.href = canvas.toDataURL();
-  link.click();
-}
-</script>
-
+        const imagesDiv = document.getElementById("images");
+        imagesDiv.innerHTML = "";
+        data.images.forEach(url => {
+          const img = document.createElement("img");
+          img.src = url;
+          imagesDiv.appendChild(img);
+        });
+      } catch (err) {
+        alert("Error: " + err.message);
+        document.getElementById("images").innerHTML = "";
+      }
+    }
+  </script>
 </body>
 </html>
