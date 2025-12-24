@@ -1,88 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RuleBase Chat (Delayed)</title>
-  <script>
-    const PROXY_URL = 'http://localhost:3000/chat'; // Node.js proxy endpoint
-
-    async function sendMessage() {
-      const input = document.getElementById('userMessage');
-      const message = input.value.trim();
-      if (!message) return;
-
-      addMessage('You', message);
-      input.value = '';
-
-      try {
-        const response = await fetch(PROXY_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
-        });
-
-        const data = await response.json();
-
-        // Delay bot reply by 1 second
-        setTimeout(() => {
-          addMessage('Bot', data.reply || 'No reply');
-        }, 1000); // 1000ms = 1 second
-      } catch (error) {
-        setTimeout(() => {
-          addMessage('Bot', 'Error: Could not reach server.');
-        }, 1000);
-        console.error(error);
-      }
-    }
-
-    function addMessage(sender, text) {
-      const chatBox = document.getElementById('chatBox');
-      const msgDiv = document.createElement('div');
-      msgDiv.className = sender === 'You' ? 'user-msg' : 'bot-msg';
-      msgDiv.textContent = `${sender}: ${text}`;
-      chatBox.appendChild(msgDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function handleKey(event) {
-      if (event.key === 'Enter') sendMessage();
-    }
-  </script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: #f4f4f4;
-    }
-    #chatBox {
-      width: 90%;
-      max-width: 600px;
-      height: 70vh;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-top: 20px;
-      background: #fff;
-    }
-    .user-msg { text-align: right; margin: 5px 0; color: #007bff; }
-    .bot-msg { text-align: left; margin: 5px 0; color: #333; }
-    #inputBox { display: flex; width: 90%; max-width: 600px; margin-top: 10px; }
-    #userMessage { flex: 1; padding: 10px; font-size: 16px; }
-    #sendBtn { padding: 10px 20px; font-size: 16px; cursor: pointer; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rulebase Chatbot</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        #chat-container { width: 400px; height: 500px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: flex; flex-direction: column; overflow: hidden; }
+        #chat-header { background: #007bff; color: white; padding: 15px; text-align: center; font-weight: bold; }
+        #messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .message { max-width: 80%; padding: 10px; border-radius: 15px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
+        .user-message { align-self: flex-end; background: #007bff; color: white; border-bottom-right-radius: 2px; }
+        .bot-message { align-self: flex-start; background: #e9e9eb; color: #333; border-bottom-left-radius: 2px; }
+        .status-msg { font-size: 11px; color: #888; text-align: center; margin: 5px; }
+        #input-area { display: flex; border-top: 1px solid #ddd; padding: 10px; background: #fff; }
+        #user-input { flex: 1; border: none; padding: 10px; outline: none; }
+        #send-btn { background: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+        #send-btn:disabled { background: #ccc; cursor: not-allowed; }
+    </style>
 </head>
 <body>
-  <h1>RuleBase Chat</h1>
-  <div id="chatBox"></div>
-  <div id="inputBox">
-    <input id="userMessage" type="text" placeholder="Type your message..." onkeydown="handleKey(event)">
-    <button id="sendBtn" onclick="sendMessage()">Send</button>
-  </div>
+
+<div id="chat-container">
+    <div id="chat-header">Rulebase Support</div>
+    <div id="messages">
+        <div class="status-msg" id="status">Connecting to server...</div>
+    </div>
+    <div id="input-area">
+        <input type="text" id="user-input" placeholder="Type a message..." autocomplete="off">
+        <button id="send-btn">Send</button>
+    </div>
+</div>
+
+<script>
+    const messagesDiv = document.getElementById('messages');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const statusMsg = document.getElementById('status');
+
+    // Using a CORS proxy to bypass browser restrictions
+    const API_URL = 'https://corsproxy.io/?' + encodeURIComponent('https://rulebase-bot-1test.onrender.com/chat');
+
+    function addMessage(text, sender) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+        msgDiv.innerText = text;
+        messagesDiv.appendChild(msgDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        addMessage(message, 'user');
+        userInput.value = '';
+        statusMsg.innerText = "Bot is typing...";
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message })
+            });
+
+            if (!response.ok) throw new Error('Server responded with error');
+
+            const data = await response.json();
+            // Try to find the reply in common JSON keys
+            const botReply = data.reply || data.message || data.response || "I received your message!";
+            
+            statusMsg.innerText = "";
+            addMessage(botReply, 'bot');
+        } catch (error) {
+            statusMsg.innerText = "";
+            addMessage("Error: Still can't connect. Your Render server might be waking up (cold start). Try again in 30 seconds.", 'bot');
+            console.error("Fetch error:", error);
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    // Initial wake-up call for Render
+    window.onload = () => {
+        statusMsg.innerText = "Server is warming up...";
+        fetch(API_URL).catch(() => {}); // Dummy call to wake up Render
+    };
+</script>
+
 </body>
 </html>
