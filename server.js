@@ -1,6 +1,5 @@
-// server.js
 const express = require('express');
-const fetch = require('node-fetch');
+const fetch = require('node-fetch'); // or native fetch in Node 18+
 const app = express();
 app.use(express.json());
 
@@ -14,6 +13,7 @@ app.post('/chat', async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Server error' });
   }
 });
