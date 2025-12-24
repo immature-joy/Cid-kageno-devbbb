@@ -1,39 +1,21 @@
-const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
-
+// server.js
+const express = require('express');
+const fetch = require('node-fetch');
 const app = express();
-app.use(cors());
 app.use(express.json());
-app.use(express.static("public")); // serve frontend
 
-const PORT = process.env.PORT || 3000;
-
-app.post("/generate", async (req, res) => {
+app.post('/chat', async (req, res) => {
   try {
-    const { prompt, quantity } = req.body;
-    if (!prompt) return res.status(400).json({ error: "Prompt is required." });
-
-    const numImages = Math.min(Math.max(quantity || 4, 1), 10);
-    const ratio = "1:1";
-
-    const imageUrls = [];
-
-    for (let i = 0; i < numImages; i++) {
-      const response = await axios.get("https://www.ai4chat.co/api/image/generate", {
-        params: { prompt, aspect_ratio: ratio },
-      });
-
-      if (response.data?.image_link) {
-        imageUrls.push(response.data.image_link);
-      }
-    }
-
-    res.json({ images: imageUrls });
+    const response = await fetch('https://rulebase-bot-1test.onrender.com/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: req.body.message })
+    });
+    const data = await response.json();
+    res.json(data);
   } catch (err) {
-    console.error("Error generating images:", err.message);
-    res.status(500).json({ error: "Failed to generate images." });
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(3000, () => console.log('Proxy running on http://localhost:3000'));
