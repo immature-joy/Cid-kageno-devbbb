@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RuleBase Chat (CORS Proxy)</title>
+  <title>RuleBase Chat (Proxy)</title>
   <script>
-    const API_URL = 'https://rulebase-bot-1test.onrender.com/chat';
-    const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'; // free public proxy
+    const PROXY_URL = 'https://rulebase-bot-1test.onrender.com/chat'; // Node.js proxy
 
     async function sendMessage() {
       const input = document.getElementById('userMessage');
@@ -17,11 +16,9 @@
       input.value = '';
 
       try {
-        const response = await fetch(CORS_PROXY + API_URL, {
+        const response = await fetch(PROXY_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message })
         });
 
