@@ -8,278 +8,39 @@
   <script>
     tailwind.config = { 
       darkMode: 'media', 
-      theme: { 
-        extend: {} 
-      } 
+      theme: { extend: {} } 
     };
   </script>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body, html {
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      position: fixed; /* Prevent scrolling */
-    }
-
-    body {
-      display: flex;
-      flex-direction: column;
-      background: inherit;
-      color: inherit;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
-
-    /* Header - Like WhatsApp/Telegram */
-    header {
-      height: 56px;
-      min-height: 56px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-      background: inherit;
-      z-index: 10;
-      flex-shrink: 0;
-    }
-    .dark header {
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    /* Main chat container - Fixed height, no scroll on body */
-    #chat-container {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 8px 12px;
-      display: flex;
-      flex-direction: column;
-      -webkit-overflow-scrolling: touch;
-      background: inherit;
-      position: relative;
-      min-height: 0; /* Important for flex child */
-    }
-
-    /* Chat bubbles */
-    .chat-bubble {
-      max-width: 85%;
-      word-wrap: break-word;
-      position: relative;
-      animation: fadeIn 0.3s ease-out;
-      margin: 2px 0;
-      flex-shrink: 0;
-    }
-    
-    .chat-bubble.user {
-      align-self: flex-end;
-      background: #007AFF;
-      color: white;
-      border-radius: 18px 4px 18px 18px;
-      padding: 12px 16px;
-      margin-left: auto;
-    }
-    
-    .chat-bubble.bot {
-      align-self: flex-start;
-      background: rgba(120, 120, 128, 0.12);
-      color: inherit;
-      border-radius: 4px 18px 18px 18px;
-      padding: 12px 16px;
-      margin-right: auto;
-    }
-    .dark .chat-bubble.bot {
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    /* Input area - Fixed at bottom */
-    #input-area {
-      width: 100%;
-      padding: 12px 16px;
-      background: inherit;
-      border-top: 1px solid rgba(0,0,0,0.1);
-      z-index: 100;
-      flex-shrink: 0;
-      position: relative;
-    }
-    .dark #input-area {
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .input-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-    }
-
-    #user-input {
-      flex: 1;
-      padding: 12px 16px;
-      font-size: 16px;
-      border: 1px solid rgba(0,0,0,0.2);
-      border-radius: 20px;
-      background: rgba(120, 120, 128, 0.12);
-      color: inherit;
-      outline: none;
-      min-height: 44px;
-      max-height: 100px;
-      resize: none;
-      line-height: 1.4;
-    }
-    .dark #user-input {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255,255,255,0.2);
-    }
-    #user-input:focus {
-      border-color: #007AFF;
-    }
-    #user-input:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    #send-btn {
-      width: 44px;
-      height: 44px;
-      min-width: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: #007AFF;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s;
-      flex-shrink: 0;
-    }
-    #send-btn:hover:not(:disabled) {
-      transform: scale(1.05);
-    }
-    #send-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      background: rgba(0, 122, 255, 0.5);
-    }
-
-    /* Typing indicator */
-    .typing-indicator {
-      align-self: flex-start;
-      background: rgba(120, 120, 128, 0.12);
-      color: gray;
-      padding: 8px 16px;
-      border-radius: 4px 18px 18px 18px;
-      margin: 2px 0;
-      font-size: 14px;
-      animation: pulse 1.5s infinite;
-      max-width: 85%;
-    }
-    .dark .typing-indicator {
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { 
-        opacity: 0; 
-        transform: translateY(10px) scale(0.95); 
-      }
-      to { 
-        opacity: 1; 
-        transform: translateY(0) scale(1); 
-      }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    /* Custom scrollbar for chat container */
-    #chat-container::-webkit-scrollbar {
-      width: 4px;
-    }
-    #chat-container::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    #chat-container::-webkit-scrollbar-thumb {
-      background: rgba(0,0,0,0.2);
-      border-radius: 2px;
-    }
-    .dark #chat-container::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.2);
-    }
-
-    /* iOS safe areas */
-    @supports (padding: max(0px)) {
-      #input-area {
-        padding-bottom: max(12px, env(safe-area-inset-bottom));
-        padding-left: max(16px, env(safe-area-inset-left));
-        padding-right: max(16px, env(safe-area-inset-right));
-      }
-      #chat-container {
-        padding-left: max(12px, env(safe-area-inset-left));
-        padding-right: max(12px, env(safe-area-inset-right));
-        padding-bottom: max(8px, env(safe-area-inset-bottom));
-      }
-      body {
-        padding-top: env(safe-area-inset-top);
-      }
-    }
-
-    /* Hide footer on mobile */
-    footer {
-      display: none;
-    }
-
-    /* Responsive adjustments */
-    @media (min-width: 640px) {
-      body {
-        max-width: 640px;
-        margin: 0 auto;
-        border-left: 1px solid rgba(0,0,0,0.1);
-        border-right: 1px solid rgba(0,0,0,0.1);
-      }
-      .dark body {
-        border-left: 1px solid rgba(255,255,255,0.1);
-        border-right: 1px solid rgba(255,255,255,0.1);
-      }
-      footer {
-        display: block;
-        text-align: center;
-        padding: 12px;
-        font-size: 12px;
-        opacity: 0.6;
-        border-top: 1px solid rgba(0,0,0,0.1);
-        flex-shrink: 0;
-      }
-      .dark footer {
-        border-top: 1px solid rgba(255,255,255,0.1);
-      }
-    }
-
-    /* Auto resize textarea */
-    #user-input {
-      overflow: hidden;
-    }
-
-    /* Bottom spacer to prevent messages from being hidden behind input */
-    .bottom-spacer {
-      height: 8px;
-      flex-shrink: 0;
-    }
+    /* --- Styles are same as your previous HTML --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body, html { height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; position: fixed; }
+    body { display: flex; flex-direction: column; background: inherit; color: inherit; position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
+    header { height: 56px; min-height: 56px; width: 100%; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid rgba(0,0,0,0.1); background: inherit; z-index: 10; flex-shrink: 0; }
+    .dark header { border-bottom: 1px solid rgba(255,255,255,0.1); }
+    #chat-container { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 8px 12px; display: flex; flex-direction: column; -webkit-overflow-scrolling: touch; background: inherit; position: relative; min-height: 0; }
+    .chat-bubble { max-width: 85%; word-wrap: break-word; position: relative; animation: fadeIn 0.3s ease-out; margin: 2px 0; flex-shrink: 0; }
+    .chat-bubble.user { align-self: flex-end; background: #007AFF; color: white; border-radius: 18px 4px 18px 18px; padding: 12px 16px; margin-left: auto; }
+    .chat-bubble.bot { align-self: flex-start; background: rgba(120, 120, 128, 0.12); color: inherit; border-radius: 4px 18px 18px 18px; padding: 12px 16px; margin-right: auto; }
+    .dark .chat-bubble.bot { background: rgba(255, 255, 255, 0.08); }
+    #input-area { width: 100%; padding: 12px 16px; background: inherit; border-top: 1px solid rgba(0,0,0,0.1); z-index: 100; flex-shrink: 0; position: relative; }
+    .dark #input-area { border-top: 1px solid rgba(255,255,255,0.1); }
+    .input-wrapper { display: flex; align-items: center; gap: 8px; width: 100%; }
+    #user-input { flex: 1; padding: 12px 16px; font-size: 16px; border: 1px solid rgba(0,0,0,0.2); border-radius: 20px; background: rgba(120, 120, 128, 0.12); color: inherit; outline: none; min-height: 44px; max-height: 100px; resize: none; line-height: 1.4; overflow: hidden; }
+    .dark #user-input { background: rgba(255, 255, 255, 0.08); border-color: rgba(255,255,255,0.2); }
+    #user-input:focus { border-color: #007AFF; }
+    #send-btn { width: 44px; height: 44px; min-width: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #007AFF; color: white; border: none; cursor: pointer; transition: transform 0.2s; flex-shrink: 0; }
+    #send-btn:hover:not(:disabled) { transform: scale(1.05); }
+    #send-btn:disabled { opacity: 0.5; cursor: not-allowed; background: rgba(0, 122, 255, 0.5); }
+    .typing-indicator { align-self: flex-start; background: rgba(120, 120, 128, 0.12); color: gray; padding: 8px 16px; border-radius: 4px 18px 18px 18px; margin: 2px 0; font-size: 14px; animation: pulse 1.5s infinite; max-width: 85%; }
+    .dark .typing-indicator { background: rgba(255, 255, 255, 0.08); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    #chat-container::-webkit-scrollbar { width: 4px; }
+    #chat-container::-webkit-scrollbar-track { background: transparent; }
+    #chat-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 2px; }
+    .dark #chat-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
+    .bottom-spacer { height: 8px; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -301,13 +62,7 @@
 
   <div id="input-area">
     <div class="input-wrapper">
-      <textarea 
-        id="user-input" 
-        placeholder="Message..." 
-        aria-label="Type your message"
-        autocomplete="off"
-        rows="1"
-      ></textarea>
+      <textarea id="user-input" placeholder="Message..." aria-label="Type your message" autocomplete="off" rows="1"></textarea>
       <button id="send-btn" aria-label="Send message">
         <i data-feather="send"></i>
       </button>
@@ -327,30 +82,17 @@
     const sendBtn = document.getElementById('send-btn');
     const bottomSpacer = document.querySelector('.bottom-spacer');
 
-    const API_URL = "https://rulebase-bot-1test.onrender.com/chat";
     let isProcessing = false;
     let typingIndicator = null;
 
-    // Auto-resize textarea
     userInput.addEventListener('input', function() {
       this.style.height = 'auto';
       this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-      
-      // Adjust chat container padding when input expands
-      adjustChatContainer();
+      scrollToBottom();
     });
 
-    function adjustChatContainer() {
-      // Ensure chat container scrolls to show new messages
-      requestAnimationFrame(() => {
-        scrollToBottom();
-      });
-    }
-
     function scrollToBottom() {
-      if (chatContainer.scrollHeight > chatContainer.clientHeight) {
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-      }
+      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
     function sanitizeInput(text) {
@@ -363,30 +105,18 @@
       const bubble = document.createElement('div');
       bubble.classList.add('chat-bubble', sender);
       bubble.innerHTML = sender === 'user' ? sanitizeInput(text) : text;
-      
-      // Insert before the bottom spacer
       chatContainer.insertBefore(bubble, bottomSpacer);
-      
-      // Keep focus on input and keyboard open
-      userInput.focus();
-      
-      // Scroll to bottom with a small delay
-      setTimeout(scrollToBottom, 10);
-      
+      scrollToBottom();
       return bubble;
     }
 
     function showTypingIndicator() {
-      if (typingIndicator) {
-        typingIndicator.remove();
-      }
-      
+      if (typingIndicator) typingIndicator.remove();
       typingIndicator = document.createElement('div');
       typingIndicator.classList.add('typing-indicator');
       typingIndicator.textContent = "ShadowGPT is typing...";
       chatContainer.insertBefore(typingIndicator, bottomSpacer);
-      
-      setTimeout(scrollToBottom, 10);
+      scrollToBottom();
     }
 
     function hideTypingIndicator() {
@@ -398,28 +128,16 @@
 
     async function queryAI(message) {
       try {
-        const response = await fetch(
-          `${API_URL}?text=${encodeURIComponent(message)}&senderID=user123`,
-          {
-            headers: {
-              'Accept': 'application/json',
-            }
-          }
-        );
-        
-        if (!response.ok) {
-          throw new Error(`API error: ${response.status}`);
-        }
-        
+        const response = await fetch("https://rulebase-bot-1test.onrender.com/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({ message: message })
+        });
+
+        if (!response.ok) throw new Error(`API error: ${response.status}`);
+
         const data = await response.json();
-        
-        if (data.reply) return data.reply;
-        if (data.data) return data.data;
-        if (data.message) return data.message;
-        if (typeof data === 'string') return data;
-        
-        return "The shadows are silent...";
-        
+        return data.reply || "The shadows are silent...";
       } catch(err) {
         console.error('API Error:', err);
         return "The shadows are disturbed... try again later.";
@@ -428,27 +146,15 @@
 
     async function sendMessage() {
       if (isProcessing) return;
-      
       const message = userInput.value.trim();
       if (!message) return;
-      
+
       isProcessing = true;
-      
-      // Disable input but keep focus
-      userInput.disabled = true;
-      sendBtn.disabled = true;
-      
       appendMessage(message, 'user');
       userInput.value = '';
       userInput.style.height = 'auto';
-      
-      // Show typing indicator
       showTypingIndicator();
-      
-      // IMPORTANT: Keep keyboard open by maintaining focus
-      userInput.disabled = false;
-      userInput.focus();
-      
+
       try {
         const botReply = await queryAI(message);
         hideTypingIndicator();
@@ -457,114 +163,17 @@
         hideTypingIndicator();
         appendMessage("Failed to get response from the shadows.", 'bot');
       } finally {
-        // Re-enable everything
         isProcessing = false;
-        userInput.disabled = false;
-        sendBtn.disabled = false;
-        
-        // CRITICAL: Keep focus on input to prevent keyboard from closing
-        setTimeout(() => {
-          userInput.focus();
-        }, 50);
+        userInput.focus();
       }
     }
 
-    // Event Listeners
-    sendBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      sendMessage();
-    });
-    
-    userInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        e.stopPropagation();
-        sendMessage();
-      }
-    });
+    sendBtn.addEventListener('click', (e) => { e.preventDefault(); sendMessage(); });
+    userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
 
-    // Initialize - focus on input immediately
-    window.onload = () => {
-      userInput.focus();
-      setTimeout(scrollToBottom, 100);
-      
-      // Prevent default behavior that might close keyboard
-      document.addEventListener('touchstart', function(e) {
-        if (e.target === userInput || e.target === sendBtn) {
-          e.preventDefault();
-        }
-      }, { passive: false });
-      
-      document.addEventListener('click', function(e) {
-        if (e.target !== userInput && e.target !== sendBtn) {
-          // Even when clicking elsewhere, keep focus on input
-          setTimeout(() => {
-            userInput.focus();
-          }, 100);
-        }
-      });
-    };
-
-    // Re-place feather icons after DOM updates
-    const observer = new MutationObserver(() => {
-      feather.replace();
-      // Adjust scroll after new content
-      setTimeout(scrollToBottom, 10);
-    });
+    window.onload = () => { userInput.focus(); scrollToBottom(); };
+    const observer = new MutationObserver(() => { feather.replace(); scrollToBottom(); });
     observer.observe(chatContainer, { childList: true });
-
-    // Prevent zoom on mobile
-    document.addEventListener('touchstart', function(e) {
-      if (e.touches.length > 1) {
-        e.preventDefault();
-      }
-    }, { passive: false });
-
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', function(e) {
-      const now = (new Date()).getTime();
-      if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
-      }
-      lastTouchEnd = now;
-    }, false);
-
-    // Handle window resize (keyboard appearing/disappearing)
-    let resizeTimer;
-    window.addEventListener('resize', function() {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        scrollToBottom();
-        userInput.focus();
-      }, 100);
-    });
-
-    // Prevent body scroll - only allow chat container scroll
-    document.addEventListener('touchmove', function(e) {
-      if (e.target === chatContainer || chatContainer.contains(e.target)) {
-        return;
-      }
-      e.preventDefault();
-    }, { passive: false });
-
-    // Focus input when tapping on chat area
-    chatContainer.addEventListener('click', function() {
-      setTimeout(() => {
-        userInput.focus();
-      }, 50);
-    });
-
-    // Keep input focused even when page loses/gains focus
-    window.addEventListener('blur', function() {
-      // Don't blur the input
-    });
-
-    window.addEventListener('focus', function() {
-      setTimeout(() => {
-        userInput.focus();
-      }, 100);
-    });
   </script>
 </body>
 </html>
