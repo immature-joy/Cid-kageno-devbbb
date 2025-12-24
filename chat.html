@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RuleBase Chat</title>
+  <title>RuleBase Chat (Proxy)</title>
   <script>
-    const API_URL = 'https://rulebase-bot-1test.onrender.com/chat';
+    const PROXY_URL = 'http://localhost:3000/chat'; // Node.js proxy endpoint
 
     async function sendMessage() {
       const input = document.getElementById('userMessage');
@@ -16,14 +16,14 @@
       input.value = '';
 
       try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(PROXY_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message })
         });
 
         const data = await response.json();
-        addMessage('Bot', data.reply); // display the reply field
+        addMessage('Bot', data.reply || 'No reply');
       } catch (error) {
         addMessage('Bot', 'Error: Could not reach server.');
         console.error(error);
@@ -44,8 +44,26 @@
     }
   </script>
   <style>
-    body { font-family: Arial; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 0; background: #f4f4f4; }
-    #chatBox { width: 90%; max-width: 600px; height: 70vh; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-top: 20px; background: #fff; }
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: #f4f4f4;
+    }
+    #chatBox {
+      width: 90%;
+      max-width: 600px;
+      height: 70vh;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 20px;
+      background: #fff;
+    }
     .user-msg { text-align: right; margin: 5px 0; color: #007bff; }
     .bot-msg { text-align: left; margin: 5px 0; color: #333; }
     #inputBox { display: flex; width: 90%; max-width: 600px; margin-top: 10px; }
