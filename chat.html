@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RuleBase Chat</title>
+  <title>RuleBase Chat (CORS Proxy)</title>
   <script>
+    const API_URL = 'https://rulebase-bot-1test.onrender.com/chat';
+    const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'; // free public proxy
+
     async function sendMessage() {
       const input = document.getElementById('userMessage');
       const message = input.value.trim();
@@ -14,7 +17,7 @@
       input.value = '';
 
       try {
-        const response = await fetch('https://rulebase-bot-1test.onrender.com/chat', {
+        const response = await fetch(CORS_PROXY + API_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -40,9 +43,7 @@
     }
 
     function handleKey(event) {
-      if (event.key === 'Enter') {
-        sendMessage();
-      }
+      if (event.key === 'Enter') sendMessage();
     }
   </script>
   <style>
@@ -66,32 +67,11 @@
       margin-top: 20px;
       background: #fff;
     }
-    .user-msg {
-      text-align: right;
-      margin: 5px 0;
-      color: #007bff;
-    }
-    .bot-msg {
-      text-align: left;
-      margin: 5px 0;
-      color: #333;
-    }
-    #inputBox {
-      display: flex;
-      width: 90%;
-      max-width: 600px;
-      margin-top: 10px;
-    }
-    #userMessage {
-      flex: 1;
-      padding: 10px;
-      font-size: 16px;
-    }
-    #sendBtn {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+    .user-msg { text-align: right; margin: 5px 0; color: #007bff; }
+    .bot-msg { text-align: left; margin: 5px 0; color: #333; }
+    #inputBox { display: flex; width: 90%; max-width: 600px; margin-top: 10px; }
+    #userMessage { flex: 1; padding: 10px; font-size: 16px; }
+    #sendBtn { padding: 10px 20px; font-size: 16px; cursor: pointer; }
   </style>
 </head>
 <body>
